@@ -18,7 +18,7 @@ const cookies = new Cookies();
 
 export default function App(){
 
-  const client_id=process.env.CLIENT_ID || "568577651031-m9pjk9r8cqntbthhanpjfheed3lfbmkv.apps.googleusercontent.com";
+  const client_id=process.env.REACT_APP_CLIENT_ID ;
   const [cookie, setCookie] = useCookies(['']);
   const userCookie = cookies.get('userCookie');
   const [user, setUser] = useState(false);

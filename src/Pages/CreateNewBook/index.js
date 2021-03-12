@@ -9,6 +9,8 @@ import { QuillBinding } from 'y-quill'
 import Quill from 'quill'
 import QuillCursors from 'quill-cursors';
 import MyAppBar from '../../components/MyAppBar';
+import { MoneyOffRounded } from '@material-ui/icons';
+import Button from '@material-ui/core/Button';
 
 export default function Room(props) {
     const roomID = props.roomID;
@@ -21,6 +23,7 @@ export default function Room(props) {
     const userCookie=cookies.get('userCookie');
 
     const username=userCookie.name;
+    const email = userCookie.email;
 
     const provider = new WebsocketProvider('wss://shielded-sierra-61478.herokuapp.com',`${roomID}`, ydoc)
     const type = ydoc.getText(`${roomID}`);
@@ -59,6 +62,8 @@ export default function Room(props) {
             theme: 'snow' // or 'bubble'
         })   
 
+     //   editor.enable(false);
+
         const binding = new QuillBinding(type, editor, provider.awareness)
         //console.log(provider.awareness);
         if(!username)username='Anonymous';
@@ -70,8 +75,10 @@ export default function Room(props) {
         // @ts-ignore
         window.example = { provider, ydoc, type, binding, Y }
     });
+
+   
     
-  
+   
    
     return (
             <div style={{display:"flex"}}>
