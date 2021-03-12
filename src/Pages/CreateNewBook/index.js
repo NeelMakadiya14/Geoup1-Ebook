@@ -22,7 +22,7 @@ export default function Room(props) {
 
     const username=userCookie.name;
 
-    const provider = new WebsocketProvider('wss://shielded-sierra-61478.herokuapp.com',`${roomID}`, ydoc)
+    const provider = new WebsocketProvider('wss://demos.yjs.dev',`${roomID}`, ydoc)
     const type = ydoc.getText(`${roomID}`);
 
     useEffect(()=>{
