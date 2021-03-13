@@ -13,6 +13,8 @@ import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
 import MyAppBar from '../../components/MyAppBar';
 import { CookiesProvider, Cookies,useCookies } from 'react-cookie';
+import Button from '@material-ui/core/Button';
+
 
 
 const drawerWidth = 240
@@ -37,11 +39,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function Home() {
+export default function Home(props) {
 
     const cookies = new Cookies();
     const userCookie = cookies.get('userCookie');
 
+    
     const classes = useStyles()
   
     return (

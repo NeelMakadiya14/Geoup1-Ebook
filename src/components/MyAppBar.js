@@ -7,6 +7,7 @@ import SwitchUI from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { CustomThemeContext } from './CustomThemeProvider';
 import { Link } from '@reach/router';
+import { v1 as uuid } from "uuid";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -35,6 +36,8 @@ export default function MyAppBar() {
   
     console.log("From Home : ",currentTheme);
 
+    const id = uuid();
+
     return (
         <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -51,6 +54,11 @@ export default function MyAppBar() {
           <Link to="/addprofile">
             <Typography variant="h6" className={classes.title}>
               Complate Profile
+            </Typography>
+          </Link>
+          <Link to={`/edit/${id}`}>
+            <Typography variant="h6" className={classes.title}>
+              Create New Book
             </Typography>
           </Link>
         </Toolbar>

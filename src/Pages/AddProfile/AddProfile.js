@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState ,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,19 +14,14 @@ import PersonalDetails from './PersonalDetails';
 import Acad from './Acad';
 import ProfilePic from './PrifilePic';
 import MyAppBar from '../../components/MyAppBar';
+import { useNavigate } from "@reach/router";
+import axios from 'axios';
+import queryString from 'query-string';
+import { CookiesProvider, Cookies,useCookies } from 'react-cookie';
+import {Box} from '@material-ui/core';
+//import { useHistory } from "react-router-dom";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+require('dotenv').config();
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -66,24 +61,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const steps = ['Personal Details', 'Work details', 'Add Profile Pic'];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <PersonalDetails />;
-    case 1:
-      return <Acad />;
-    case 2:
-        return <ProfilePic/>;
-    default:
-      throw new Error('Unknown step');
-  }
-}
 
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+
+  const navigate = useNavigate();
+//  const history = useHistory();
+//  histort.push("/profile");
+
+  const [data,setData] = useState({});
+
+  console.log("data : ", data);
+
+  const cookies = new Cookies();
+  const userCookie = cookies.get('userCookie');
+
+  const email = userCookie.email;
+
+  const API_URL=process.env.REACT_APP_BACKEND_URL;
+
+//  console.log(process.env);
+  console.log("URL : ",API_URL);
+
+  useEffect(()=>{
+    axios.get(`${API_URL}/checkauthor?` +queryString.stringify({  email }))
+        .then((res) => {
+          if(res.data!==false){
+            console.log("get : ",res.data[0])
+            let obj = {
+              fname: res.data[0].Fname ,
+              lname: res.data[0].Lname ,
+              mobile : res.data[0].Mnumber ,
+              twitter : res.data[0].Twitter ,
+              city : res.data[0].City ,
+              state : res.data[0].State ,
+              country : res.data[0].Country ,
+              company: res.data[0].Company ,
+              location: res.data[0].Clocation ,
+              AboutYourself : res.data[0].Bio,
+              website : res.data[0].Website ,
+              imgUrl : res.data[0].picUrl,
+              linkedInUrl : res.data[0].linkedInUrl 
+            }
+            setData(obj);
+          }
+          
+        })
+        .catch((err) => console.log(err));
+
+        console.log("retriveed data",data);
+  },[]);
+
+  
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -93,10 +127,36 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <PersonalDetails data={data}  setData = {setData}  next={handleNext} />;
+      case 1:
+        return <Acad data={data}  setData = {setData}  next={handleNext}  back ={handleBack}/>;
+      case 2:
+          return <ProfilePic data={data}  setData = {setData} next={handleNext} back={handleBack}/>;
+      case 3:
+          axios.post(`${API_URL}/addauthor` , {
+            GID : userCookie.GID,
+            email : userCookie.email,
+            ... data
+          })
+          .then((res)=>console.log(res))
+          .catch((err)=>console.log(err));
+
+          navigate("/profile");
+          return null;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
       <MyAppBar/>
+      <Box display="flex" justifyContent="center" alignItems="center">
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
@@ -110,40 +170,11 @@ export default function Checkout() {
             ))}
           </Stepper>
           <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you .
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
                 {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Done' : 'Next'}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
           </React.Fragment>
         </Paper>
-        <Copyright />
       </main>
+      </Box>
     </React.Fragment>
   );
 }
