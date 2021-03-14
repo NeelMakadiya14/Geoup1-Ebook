@@ -9,6 +9,11 @@ ease and publish it and for keen readers to read this creative content and they 
 ```bash
 git clone <your-url>
 ```
+- Add your local repository as origin
+```bash
+git remote add origin <your-url>
+```
+
 - Add this repository as upstream
 ```bash
 git remote add upstream https://github.com/NeelMakadiya14/Geoup1-Ebook.git
@@ -56,3 +61,7 @@ git cheackout <branch-name>
 ```
 
 - After completing create PR on that branch
+```bash
+git push origin <branch-name>
+```
+- Then from your local repo you can create pull request to upsream(central repository) 
