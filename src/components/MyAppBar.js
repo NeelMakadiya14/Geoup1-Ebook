@@ -20,7 +20,6 @@ import GoogleLogin from 'react-google-login';
 import { GoogleOutlined } from '@ant-design/icons';
 import Navbar from "react-bootstrap/Navbar";
 import {NavDropdown,Nav} from "react-bootstrap";
-import Logo from './mainlogo1.png';
 import Font, { Text } from 'react-font'
 
 
