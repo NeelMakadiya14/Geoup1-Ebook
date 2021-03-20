@@ -11,70 +11,71 @@ import QuillCursors from 'quill-cursors';
 import MyAppBar from '../../components/MyAppBar';
 import { MoneyOffRounded } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
+import Form from './Form';
 
 export default function Room(props) {
-    const roomID = props.roomID;
+    // const roomID = props.roomID;
 
-    Quill.register('modules/cursors', QuillCursors)
+    // Quill.register('modules/cursors', QuillCursors)
 
-    const ydoc = new Y.Doc()
+    // const ydoc = new Y.Doc()
 
-    const cookies = new Cookies();
-    const userCookie = cookies.get('userCookie');
+    // const cookies = new Cookies();
+    // const userCookie = cookies.get('userCookie');
 
-    const username = userCookie.name;
-    const email = userCookie.email;
+    // const username = useCookies.name;
+    // const email = useCookies.email;
 
-    const provider = new WebsocketProvider('wss://demos.yjs.dev', `${roomID}`, ydoc)
-    const type = ydoc.getText(`${roomID}`);
+    // const provider = new WebsocketProvider('wss://demos.yjs.dev', `${roomID}`, ydoc)
+    // const type = ydoc.getText(`${roomID}`);
 
-    useEffect(() => {
-        const EditorContainer = document.getElementById("editor");
+    // useEffect(() => {
+    //     const EditorContainer = document.getElementById("editor");
 
-        var toolbarOptions = [
-            [{ 'font': [] }],
-            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    //     var toolbarOptions = [
+    //         [{ 'font': [] }],
+    //         [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    //         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    //         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
 
-            ['blockquote', 'link', 'image', 'video', 'code-block'],
-            ['formula'],
+    //         ['blockquote', 'link', 'image', 'video', 'code-block'],
+    //         ['formula'],
 
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-            [{ 'direction': 'rtl' }],                         // text direction
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'align': [] }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-            ['clean']
-        ];
+    //         [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    //         [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    //         [{ 'direction': 'rtl' }],                         // text direction
+    //         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    //         [{ 'align': [] }],
+    //         [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+    //         ['clean']
+    //     ];
 
-        var editor = new Quill(EditorContainer, {
-            modules: {
-                cursors: true,
-                toolbar: toolbarOptions,
-                history: {
-                    userOnly: true
-                }
-            },
-            placeholder: 'Start Writing...',
-            theme: 'snow' // or 'bubble'
-        })
+    //     var editor = new Quill(EditorContainer, {
+    //         modules: {
+    //             cursors: true,
+    //             toolbar: toolbarOptions,
+    //             history: {
+    //                 userOnly: true
+    //             }
+    //         },
+    //         placeholder: 'Start Writing...',
+    //         theme: 'snow' // or 'bubble'
+    //     })
 
-        //   editor.enable(false);
+    //     //   editor.enable(false);
 
-        const binding = new QuillBinding(type, editor, provider.awareness)
-        //console.log(provider.awareness);
-        if (!username) username = 'Anonymous';
-        provider.awareness.setLocalStateField('user', {
-            name: `${username}`,
-            color: 'blue'
-        });
+    //     const binding = new QuillBinding(type, editor, provider.awareness)
+    //     //console.log(provider.awareness);
+    //     if (!username) username = 'Anonymous';
+    //     provider.awareness.setLocalStateField('user', {
+    //         name: `${username}`,
+    //         color: 'blue'
+    //     });
 
-        // @ts-ignore
-        window.example = { provider, ydoc, type, binding, Y }
-    });
+    //     // @ts-ignore
+    //     window.example = { provider, ydoc, type, binding, Y }
+    // });
 
 
 
@@ -82,7 +83,8 @@ export default function Room(props) {
 
     return (
         <div style={{ display: "flex" }}>
-            <Grid
+            <Form />
+            {/* <Grid
                 container
                 direction="row"
                 justify="center"
@@ -98,8 +100,7 @@ export default function Room(props) {
                         <div style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)" }} id="editor"></div>
                     </Card>
                 </Grid>
-            </Grid>
-            {/* checking */}
+            </Grid> */}
         </div>
     )
 }
