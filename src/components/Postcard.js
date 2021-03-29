@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 2px',
         transform: 'scale(1)',
     },
+    like: {
+        textAlign: 'right',
+    },
+    Heart: {
+        transform: 'scale(1)'
+    }
 
 }));
 
@@ -36,8 +42,9 @@ const Postcard = (props) => {
 
     const classes = useStyles();
     const bull = <span className={classes.bullet}>➥</span>;
-    const [isShown, setIsShown] = useState(false);
+    const heart = <span className={classes.Heart}>❤</span>;
 
+    const Genre = props.data.genres
 
     return (
         <div className="book">
@@ -48,14 +55,19 @@ const Postcard = (props) => {
                 < Card className={classes.root} variant="outlined">
                     <CardHeader className={classes.header}
                         title={props.data.title}
-                        subheader={props.data.author}
+                        subheader={props.data.author.Fname + " " + props.data.author.Lname}
                     />
                     <CardContent>
                         <Typography variant="subtitle2" color="textSecondary" component="p" >
-                            {bull} {props.data.genres}
+                            {bull} {Genre.map((genre) => {
+                                return ("|" + genre + "|" + " ");
+                            })}
                         </Typography>
                         <Typography variant="body2" component="p">
                             {props.data.description}
+                        </Typography>
+                        <Typography className={classes.like} variant="subtitle2" color="textSecondary" component="p">
+                            {heart} {props.data.likes.count}
                         </Typography>
                     </CardContent>
 

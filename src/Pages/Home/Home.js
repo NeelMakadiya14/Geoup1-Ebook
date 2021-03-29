@@ -50,11 +50,18 @@ const useStyles = makeStyles((theme) => ({
 
 const obj = {
   title: 'Stranger in a Strange Land',
-  author: 'Robert Heinlein',
-  genres: 'Comedy',
+  author: {
+    Fname: 'Robert',
+    Lname: 'Heinlein',
+  },
+  genres: ['Comedy', 'Drama'],
+  likes: {
+    count: '150',
+  },
   imageUrl: 'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335',
   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.'
 }
+
 
 export default function Home(props) {
   const cookies = new Cookies();
