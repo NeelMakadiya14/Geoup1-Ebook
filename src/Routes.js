@@ -4,6 +4,7 @@ import Home from "./Pages/Home/Home";
 import Profile from "./Pages/Profile/Profile";
 import AddProfile from "./Pages/AddProfile/AddProfile";
 import CreateNewBook from "./Pages/CreateNewBook";
+import Reading from "./Pages/Reading/Reading";
 
 export default function Routes(props) {
   return (
@@ -13,6 +14,7 @@ export default function Routes(props) {
       <AddProfile path="/editprofile" />
       <Home path="*" />
       <CreateNewBook path="/edit/:roomID" />
+      <Reading path="/view/:bookID" />
     </Router>
   );
 }
