@@ -13,12 +13,14 @@ import { MoneyOffRounded } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import { render } from 'react-dom';
 import { renderToString } from 'react-dom/server';
+import queryString from 'query-string';
 //import Hello from './Hello';
+import axios from 'axios';
 import jsPDF from 'jspdf';
 
 export default function Room(props) {
     const roomID = props.roomID;
-
+    const API_URL = process.env.REACT_APP_BACKEND_URL;
     Quill.register('modules/cursors', QuillCursors)
 
     const ydoc = new Y.Doc()
@@ -81,13 +83,19 @@ export default function Room(props) {
 
 
 
-    const print = () => {
-        console.log(Harsh);
-        //var string = renderToString(Harsh.item(0));
+    const OnSave = () => {
+        console.log(API_URL);
         var pdf = new jsPDF();
-        pdf.fromHTML(Harsh.item(0));
-        //console.log(string);
-        pdf.save('pdf')
+        var FinalPDF = pdf.fromHTML(Harsh.item(0));
+        const data = new FormData()
+        data.append('file', FinalPDF)
+        axios.post(`${API_URL}/uploadbook?` + queryString.stringify({ docID: roomID }), data, {
+            // receive two    parameter endpoint url ,form data
+        })
+            .then(res => { // then print response status
+                console.log(res.statusText)
+            })
+        //pdf.save('pdf')
     }
 
 
@@ -112,7 +120,7 @@ export default function Room(props) {
                     </Grid>
                 </Grid>
             </div>
-            <button onClick={print}>Download</button>
+            <button onClick={OnSave}>Save</button>
         </div>
     )
 }
