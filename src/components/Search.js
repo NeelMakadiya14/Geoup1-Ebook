@@ -35,15 +35,6 @@ export default function Search() {
 
   return (
     <div className={classes.row}>
-      <SearchBar
-        //onChange={(value) => console.log(value)} //when search text changes
-        onRequestSearch={(value) => {
-          console.log(value);
-          navigate(`/search/${value}`);
-        }}
-        style={{ maxWidth: 400, marginTop: "10px", marginRight: "10px" }}
-      />
-
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="age-native-simple">Genre</InputLabel>
         <Select
@@ -65,6 +56,16 @@ export default function Search() {
           ))}
         </Select>
       </FormControl>
+
+
+      <SearchBar
+        //onChange={(value) => console.log(value)} //when search text changes
+        onRequestSearch={(value) => {
+          console.log(value);
+          navigate(`/search/${value}`);
+        }}
+        style={{ maxWidth: 800, marginTop: "10px", marginRight: "10px", width:'500px' }}
+      />
     </div>
   );
 }
