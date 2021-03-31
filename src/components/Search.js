@@ -4,7 +4,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
+import { FormControl, Box, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from "@reach/router";
 import { genres } from "../utils/Constant";
@@ -12,14 +12,9 @@ import { genres } from "../utils/Constant";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
-    marginBottom: "25px",
   },
   selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  row: {
-    display: "inline-flex",
+    margin: theme.spacing(1),
   },
 }));
 
@@ -34,38 +29,35 @@ export default function Search() {
   };
 
   return (
-    <div className={classes.row}>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Genre</InputLabel>
-        <Select
-          native
-          //value={age}
-          onChange={(event) => handleChange(event)}
-          //defaultValue={this.state.selectValue}
-
-          inputProps={{
-            name: "age",
-            id: "age-native-simple",
-          }}
-        >
-          <option> None </option>
-          {genres.map((x, i) => (
-            <option key={i} value={x}>
-              {x}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-
-
-      <SearchBar
-        //onChange={(value) => console.log(value)} //when search text changes
-        onRequestSearch={(value) => {
-          console.log(value);
-          navigate(`/search/${value}`);
-        }}
-        style={{ maxWidth: 800, marginTop: "10px", marginRight: "10px", width:'500px' }}
-      />
+    <div style={{ width: "100%" }}>
+      <Box display="flex" p={1}>
+        <Box p={1} flexGrow={1}>
+          <SearchBar
+            //onChange={(value) => console.log(value)} //when search text changes
+            onRequestSearch={(value) => {
+              console.log(value);
+              navigate(`/search/${value}`);
+            }}
+            style={{
+              width: "50%",
+            }}
+          />
+        </Box>
+        <Box p={1}>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Genre</InputLabel>
+            <Select native onChange={(event) => handleChange(event)}>
+              <option> None </option>
+              {genres.map((x, i) => (
+                <option key={i} value={x}>
+                  {x}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
+      <Divider />
     </div>
   );
 }
