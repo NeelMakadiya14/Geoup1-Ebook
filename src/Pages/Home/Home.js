@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import GoogleLogin from "react-google-login";
 import Modal from "@material-ui/core/Modal";
 import Postcard from "../../components/Postcard";
+import Search from "../../components/Search";
 // import SecondaryBar from "../../components/SecondaryBar";
 import axios from "axios";
 require("dotenv").config();
@@ -149,11 +150,13 @@ export default function Home(props) {
       </Modal>
       <main className={classes.content}>
         <Toolbar />
-        <h1>
+        {/* <h1>
           {userCookie === undefined
             ? "Hello Guest"
             : "Hello " + userCookie.name}
-        </h1>
+        </h1> */}
+
+        <Search />
         <Postcard data={obj} />
       </main>
     </div>
