@@ -54,11 +54,13 @@ export default function MyAppBar(props) {
   const cookies = new Cookies();
   const userCookie = cookies.get("userCookie");
   console.log("MYAPPBAR...");
-  const [isAuthor, setAuthor] = React.useState(true);
+  const [isAuthor, setAuthor] = React.useState(false);
 
   const API_URL = process.env.REACT_APP_BACKEND_URL;
   const client_id = process.env.REACT_APP_CLIENT_ID;
 
+  
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userCookie !== undefined) {
       const email = userCookie.email;
@@ -125,7 +127,7 @@ export default function MyAppBar(props) {
   );
 
   const responseGoogle = (response) => {
-    console.log("Success");
+    console.log(response);
     let authCookie = {
       email: response.profileObj.email,
       name: response.profileObj.name,
@@ -139,6 +141,16 @@ export default function MyAppBar(props) {
   const fail = (res) => {
     console.log("Failed ", res);
   };
+
+  function handleClick(){
+    <GoogleLogin
+        clientId={client_id}
+        onSuccess={responseGoogle}
+        onFailure={fail}
+      >
+       
+      </GoogleLogin>
+  }   
 
   return (
     <div className={classes.grow}>
@@ -191,16 +203,18 @@ export default function MyAppBar(props) {
                 onSuccess={responseGoogle}
                 onFailure={fail}
                 size="medium"
-                //href="/"
+                href="/"
                 render={(renderProps) => (
                   <GoogleOutlined
                     onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
+                    disabled= {false}    //disabled={renderProps.disabled}
                     style={{ fontSize: "30px" }}
+                    
                   />
                 )}
               >
-                <Link to="/"> </Link>
+               
+                {/* <Link to="/"> </Link> */}
               </GoogleLogin>
             ) : (
               <IconButton
@@ -222,3 +236,4 @@ export default function MyAppBar(props) {
     </div>
   );
 }
+

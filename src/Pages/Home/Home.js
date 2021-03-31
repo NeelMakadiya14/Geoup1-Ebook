@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import GoogleLogin from "react-google-login";
 import Modal from "@material-ui/core/Modal";
 import Postcard from "../../components/Postcard"
+import Search from "../../components/Search"
 
 const drawerWidth = 240;
 
@@ -181,6 +182,8 @@ export default function Home(props) {
             ? "Hello Guest"
             : "Hello " + userCookie.name}
         </h1>
+
+        <Search />
         <Postcard data={obj} />
       </main>
     </div>
