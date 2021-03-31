@@ -135,6 +135,14 @@ export default function MyAppBar(props) {
     };
     console.log(authCookie);
     setCookie("userCookie", authCookie);
+    axios
+      .post(`${API_URL}/addreader`, authCookie)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     props.setRender(!props.render);
   };
 
