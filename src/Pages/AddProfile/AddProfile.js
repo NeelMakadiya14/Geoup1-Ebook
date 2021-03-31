@@ -1,4 +1,4 @@
-import React,{useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,8 +17,8 @@ import MyAppBar from '../../components/MyAppBar';
 import { useNavigate } from "@reach/router";
 import axios from 'axios';
 import queryString from 'query-string';
-import { CookiesProvider, Cookies,useCookies } from 'react-cookie';
-import {Box} from '@material-ui/core';
+import { CookiesProvider, Cookies, useCookies } from 'react-cookie';
+import { Box } from '@material-ui/core';
 //import { useHistory } from "react-router-dom";
 
 require('dotenv').config();
@@ -71,10 +71,10 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const navigate = useNavigate();
-//  const history = useHistory();
-//  histort.push("/profile");
+  //  const history = useHistory();
+  //  histort.push("/profile");
 
-  const [data,setData] = useState({});
+  const [data, setData] = useState({});
 
   console.log("data : ", data);
 
@@ -83,41 +83,41 @@ export default function Checkout() {
 
   const email = userCookie.email;
 
-  const API_URL=process.env.REACT_APP_BACKEND_URL;
+  const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-//  console.log(process.env);
-  console.log("URL : ",API_URL);
+  //  console.log(process.env);
+  console.log("URL : ", API_URL);
 
-  useEffect(()=>{
-    axios.get(`${API_URL}/checkauthor?` +queryString.stringify({  email }))
-        .then((res) => {
-          if(res.data!==false){
-            console.log("get : ",res.data[0])
-            let obj = {
-              fname: res.data[0].Fname ,
-              lname: res.data[0].Lname ,
-              mobile : res.data[0].Mnumber ,
-              twitter : res.data[0].Twitter ,
-              city : res.data[0].City ,
-              state : res.data[0].State ,
-              country : res.data[0].Country ,
-              company: res.data[0].Company ,
-              location: res.data[0].Clocation ,
-              AboutYourself : res.data[0].Bio,
-              website : res.data[0].Website ,
-              imgUrl : res.data[0].picUrl,
-              linkedInUrl : res.data[0].linkedInUrl 
-            }
-            setData(obj);
+  useEffect(() => {
+    axios.get(`${API_URL}/checkauthor?` + queryString.stringify({ email }))
+      .then((res) => {
+        if (res.data !== false) {
+          console.log("get : ", res.data[0])
+          let obj = {
+            fname: res.data[0].Fname,
+            lname: res.data[0].Lname,
+            mobile: res.data[0].Mnumber,
+            twitter: res.data[0].Twitter,
+            city: res.data[0].City,
+            state: res.data[0].State,
+            country: res.data[0].Country,
+            company: res.data[0].Company,
+            location: res.data[0].Clocation,
+            AboutYourself: res.data[0].Bio,
+            website: res.data[0].Website,
+            imgUrl: res.data[0].picUrl,
+            linkedInUrl: res.data[0].linkedInUrl
           }
-          
-        })
-        .catch((err) => console.log(err));
+          setData(obj);
+        }
 
-        console.log("retriveed data",data);
-  },[]);
+      })
+      .catch((err) => console.log(err));
 
-  
+    console.log("retriveed data", data);
+  }, []);
+
+
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -131,22 +131,22 @@ export default function Checkout() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <PersonalDetails data={data}  setData = {setData}  next={handleNext} />;
+        return <PersonalDetails data={data} setData={setData} next={handleNext} />;
       case 1:
-        return <Acad data={data}  setData = {setData}  next={handleNext}  back ={handleBack}/>;
+        return <Acad data={data} setData={setData} next={handleNext} back={handleBack} />;
       case 2:
-          return <ProfilePic data={data}  setData = {setData} next={handleNext} back={handleBack}/>;
+        return <ProfilePic data={data} setData={setData} next={handleNext} back={handleBack} />;
       case 3:
-          axios.post(`${API_URL}/addauthor` , {
-            GID : userCookie.GID,
-            email : userCookie.email,
-            ... data
-          })
-          .then((res)=>console.log(res))
-          .catch((err)=>console.log(err));
+        axios.post(`${API_URL}/addauthor`, {
+          GID: userCookie.GID,
+          email: userCookie.email,
+          ...data
+        })
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
 
-          navigate("/profile");
-          return null;
+        navigate("/profile");
+        return null;
       default:
         throw new Error('Unknown step');
     }
@@ -155,25 +155,25 @@ export default function Checkout() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <MyAppBar/>
+      <MyAppBar />
       <Box display="flex" justifyContent="center" alignItems="center">
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
-            Complate Your Profile
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <Typography component="h1" variant="h4" align="center">
+              Complate Your Profile
           </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-                {getStepContent(activeStep)}
-          </React.Fragment>
-        </Paper>
-      </main>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <React.Fragment>
+              {getStepContent(activeStep)}
+            </React.Fragment>
+          </Paper>
+        </main>
       </Box>
     </React.Fragment>
   );
