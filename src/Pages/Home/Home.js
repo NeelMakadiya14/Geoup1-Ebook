@@ -16,23 +16,14 @@ import { CookiesProvider, Cookies, useCookies } from "react-cookie";
 import Button from "@material-ui/core/Button";
 import GoogleLogin from "react-google-login";
 import Modal from "@material-ui/core/Modal";
-import Postcard from "../../components/Postcard"
-
-const drawerWidth = 240;
+import Postcard from "../../components/Postcard";
+// import SecondaryBar from "../../components/SecondaryBar";
+import axios from "axios";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerContainer: {
-    overflow: "auto",
   },
   content: {
     flexGrow: 1,
@@ -49,19 +40,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const obj = {
-  title: 'Stranger in a Strange Land',
+  title: "Stranger in a Strange Land",
   author: {
-    Fname: 'Robert',
-    Lname: 'Heinlein',
+    Fname: "Robert",
+    Lname: "Heinlein",
   },
-  genres: ['Comedy', 'Drama'],
+  genres: ["Comedy", "Drama"],
   likes: {
-    count: '150',
+    count: "150",
   },
-  imageUrl: 'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.'
-}
-
+  docID: "req.body.docID",
+  imageUrl:
+    "https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.",
+};
 
 export default function Home(props) {
   const cookies = new Cookies();
@@ -77,6 +70,8 @@ export default function Home(props) {
 
   console.log(userCookie);
 
+  const API_URL = process.env.REACT_APP_BACKEND_URL;
+
   const responseGoogle = (response) => {
     console.log("Success");
     let authCookie = {
@@ -86,6 +81,15 @@ export default function Home(props) {
     };
     console.log(authCookie);
     setCookie("userCookie", authCookie);
+
+    axios
+      .post(`${API_URL}/addreader`, authCookie)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setUser(true);
     setRender(!render);
   };
@@ -134,6 +138,7 @@ export default function Home(props) {
   return (
     <div className={classes.root}>
       <MyAppBar render={render} setRender={setRender} />
+      {/* <SecondaryBar /> */}
       <Modal
         open={!user}
         onClose={() => {
@@ -142,38 +147,6 @@ export default function Home(props) {
       >
         {body}
       </Modal>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      </Drawer>
       <main className={classes.content}>
         <Toolbar />
         <h1>
