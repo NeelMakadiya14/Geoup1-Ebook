@@ -1,13 +1,11 @@
 import React from "react";
-import Routes from "./Routes.js"
-import ReadingThread from "./components/ReadingThread.js"
+import Routes from "./Routes.js";
 require("dotenv").config();
 
 export default function App() {
   return (
     <div>
       <Routes />
-      <ReadingThread />
     </div>
   );
 }
