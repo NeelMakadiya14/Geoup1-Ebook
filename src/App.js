@@ -1,5 +1,5 @@
 import React from "react";
-import Routes from "./Routes";
+import Routes from "./Routes.js";
 require("dotenv").config();
 
 export default function App() {
