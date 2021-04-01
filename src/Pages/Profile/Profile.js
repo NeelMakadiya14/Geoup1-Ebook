@@ -2,6 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { SocialIcon } from 'react-social-icons';
 import Avatar from 'react-avatar';
+import { makeStyles } from '@material-ui/core/styles';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import HomeIcon from '@material-ui/icons/Home';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import RoomIcon from '@material-ui/icons/Room';
+import { black } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
 import "./profile.css"
 
 import axios from 'axios'
@@ -81,15 +88,16 @@ export default function Profile(props) {
         <div className="Company">
           <p className="Company1">WORK-details</p>
           <p className="Company2">
-            <li>{profile.Company}</li>
-            <li>{profile.Clocation}</li>
+            <HomeWorkIcon style={{ color: "brown" }} fontSize="large"></HomeWorkIcon>  {profile.Company}
+            <br></br>
+            <RoomIcon style={{ color: "black" }} fontSize="large"></RoomIcon>{profile.Clocation}
           </p>
         </div>
 
         <div className="Location">
           <p className="Location1">LOCATION</p>
           <p className="Location2">
-            <li>{profile.City ? (profile.City) : null},{profile.State ? (profile.State) : null},{profile.Country}</li>
+            <HomeIcon color="primary" fontSize="large" /> {profile.City ? (profile.City) : null},{profile.State ? (profile.State) : null},{profile.Country}
           </p>
         </div>
 
