@@ -4,6 +4,7 @@ import queryString from "query-string";
 import Loader from "../components/Loader";
 import MyAppBar from "../components/MyAppBar";
 import Search from "../components/Search";
+import Toolbar from "@material-ui/core/Toolbar";
 require("dotenv").config();
 
 export default function SearchResult(props) {
@@ -24,6 +25,7 @@ export default function SearchResult(props) {
   return (
     <div>
       <MyAppBar />
+      <Toolbar />
       <Search />
       {data ? <h1>Show Result</h1> : <Loader />}
     </div>

@@ -59,7 +59,6 @@ export default function MyAppBar(props) {
   const API_URL = process.env.REACT_APP_BACKEND_URL;
   const client_id = process.env.REACT_APP_CLIENT_ID;
 
-  
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userCookie !== undefined) {
@@ -109,7 +108,7 @@ export default function MyAppBar(props) {
       {isAuthor ? (
         <MenuItem
           component={Link}
-          to={`profile/${userCookie ? userCookie.GID : ""}`}
+          to={`profile/${userCookie ? userCookie.email : ""}`}
           onClick={handleMenuClose}
         >
           My Profile
@@ -150,15 +149,13 @@ export default function MyAppBar(props) {
     console.log("Failed ", res);
   };
 
-  function handleClick(){
+  function handleClick() {
     <GoogleLogin
-        clientId={client_id}
-        onSuccess={responseGoogle}
-        onFailure={fail}
-      >
-       
-      </GoogleLogin>
-  }   
+      clientId={client_id}
+      onSuccess={responseGoogle}
+      onFailure={fail}
+    ></GoogleLogin>;
+  }
 
   return (
     <div className={classes.grow}>
@@ -215,13 +212,11 @@ export default function MyAppBar(props) {
                 render={(renderProps) => (
                   <GoogleOutlined
                     onClick={renderProps.onClick}
-                    disabled= {false}    //disabled={renderProps.disabled}
+                    disabled={false} //disabled={renderProps.disabled}
                     style={{ fontSize: "30px" }}
-                    
                   />
                 )}
               >
-               
                 {/* <Link to="/"> </Link> */}
               </GoogleLogin>
             ) : (
@@ -244,4 +239,3 @@ export default function MyAppBar(props) {
     </div>
   );
 }
-

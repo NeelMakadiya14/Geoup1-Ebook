@@ -9,6 +9,7 @@ import { QuillBinding } from "y-quill";
 import Quill from "quill";
 import QuillCursors from "quill-cursors";
 import MyAppBar from "../../components/MyAppBar";
+import Toolbar from "@material-ui/core/Toolbar";
 import { MoneyOffRounded } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import { render } from "react-dom";
@@ -112,6 +113,8 @@ export default function Room(props) {
 
   return (
     <div>
+      <MyAppBar />
+      <Toolbar />
       <div style={{ display: "flex" }}>
         <Grid
           container

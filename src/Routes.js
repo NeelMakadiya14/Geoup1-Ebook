@@ -12,7 +12,7 @@ export default function Routes(props) {
   return (
     <Router>
       <Home path="/" />
-      <Profile path="/profile/:GID" />
+      <Profile path="/profile/:email" />
       <AddProfile path="/editprofile" />
       <Home path="*" />
       <CreateNewBook path="/edit/:roomID" />
