@@ -1,41 +1,41 @@
-import React,{useState ,useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
-import PersonalDetails from './PersonalDetails';
-import Acad from './Acad';
-import ProfilePic from './PrifilePic';
-import MyAppBar from '../../components/MyAppBar';
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Paper from "@material-ui/core/Paper";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+import PersonalDetails from "./PersonalDetails";
+import Acad from "./Acad";
+import ProfilePic from "./PrifilePic";
+import MyAppBar from "../../components/MyAppBar";
 import { useNavigate } from "@reach/router";
-import axios from 'axios';
-import queryString from 'query-string';
-import { CookiesProvider, Cookies,useCookies } from 'react-cookie';
-import {Box} from '@material-ui/core';
+import axios from "axios";
+import queryString from "query-string";
+import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Box } from "@material-ui/core";
 //import { useHistory } from "react-router-dom";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: 'relative',
+    position: "relative",
   },
   layout: {
-    width: 'auto',
+    width: "auto",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
-    marginTop: '9%',
+    marginTop: "9%",
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      marginLeft: "auto",
+      marginRight: "auto",
     },
   },
   paper: {
@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 0, 5),
   },
   buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
   },
   button: {
     marginTop: theme.spacing(3),
@@ -61,63 +61,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-const steps = ['Personal Details', 'Work details', 'Add Profile Pic'];
-
+const steps = ["Personal Details", "Work details", "Add Profile Pic"];
 
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
   const navigate = useNavigate();
-//  const history = useHistory();
-//  histort.push("/profile");
+  //  const history = useHistory();
+  //  histort.push("/profile");
 
-  const [data,setData] = useState({});
-
-  console.log("data : ", data);
+  const [data, setData] = useState({});
 
   const cookies = new Cookies();
-  const userCookie = cookies.get('userCookie');
+  const userCookie = cookies.get("userCookie");
 
   const email = userCookie.email;
 
-  const API_URL=process.env.REACT_APP_BACKEND_URL;
+  const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-//  console.log(process.env);
-  console.log("URL : ",API_URL);
+  //  console.log(process.env);
+  console.log("URL : ", API_URL);
 
-  useEffect(()=>{
-    axios.get(`${API_URL}/checkauthor?` +queryString.stringify({  email }))
-        .then((res) => {
-          if(res.data!==false){
-            console.log("get : ",res.data[0])
-            let obj = {
-              fname: res.data[0].Fname ,
-              lname: res.data[0].Lname ,
-              mobile : res.data[0].Mnumber ,
-              twitter : res.data[0].Twitter ,
-              city : res.data[0].City ,
-              state : res.data[0].State ,
-              country : res.data[0].Country ,
-              company: res.data[0].Company ,
-              location: res.data[0].Clocation ,
-              AboutYourself : res.data[0].Bio,
-              website : res.data[0].Website ,
-              imgUrl : res.data[0].picUrl,
-              linkedInUrl : res.data[0].linkedInUrl 
-            }
-            setData(obj);
-          }
-          
-        })
-        .catch((err) => console.log(err));
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/checkauthor?` + queryString.stringify({ email }))
+      .then((res) => {
+        if (res.data !== false) {
+          console.log("get : ", res.data[0]);
+          let obj = {
+            fname: res.data[0].Fname,
+            lname: res.data[0].Lname,
+            mobile: res.data[0].Mnumber,
+            twitter: res.data[0].Twitter,
+            city: res.data[0].City,
+            state: res.data[0].State,
+            country: res.data[0].Country,
+            company: res.data[0].Company,
+            location: res.data[0].Clocation,
+            AboutYourself: res.data[0].Bio,
+            website: res.data[0].Website,
+            imgUrl: res.data[0].picUrl,
+            linkedInUrl: res.data[0].linkedInUrl,
+          };
+          setData(obj);
+        }
+      })
+      .catch((err) => console.log(err));
 
-        console.log("retriveed data",data);
-  },[]);
+    console.log("retriveed data", data);
+  }, []);
 
-  
+  console.log("data : ", data);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -127,53 +122,70 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
-
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <PersonalDetails data={data}  setData = {setData}  next={handleNext} />;
+        return (
+          <PersonalDetails data={data} setData={setData} next={handleNext} />
+        );
       case 1:
-        return <Acad data={data}  setData = {setData}  next={handleNext}  back ={handleBack}/>;
+        return (
+          <Acad
+            data={data}
+            setData={setData}
+            next={handleNext}
+            back={handleBack}
+          />
+        );
       case 2:
-          return <ProfilePic data={data}  setData = {setData} next={handleNext} back={handleBack}/>;
+        return (
+          <ProfilePic
+            data={data}
+            setData={setData}
+            next={handleNext}
+            back={handleBack}
+          />
+        );
       case 3:
-          axios.post(`${API_URL}/addauthor` , {
-            GID : userCookie.GID,
-            email : userCookie.email,
-            ... data
+        console.log("post : ", data);
+        axios
+          .post(`${API_URL}/addauthor`, {
+            GID: userCookie.GID,
+            email: userCookie.email,
+            ...data,
           })
-          .then((res)=>console.log(res))
-          .catch((err)=>console.log(err));
+          .then((res) => {
+            console.log(res);
+            navigate(`/profile/${userCookie.email}`);
+          })
+          .catch((err) => console.log(err));
 
-          navigate("/profile");
-          return null;
+        return null;
       default:
-        throw new Error('Unknown step');
+        throw new Error("Unknown step");
     }
   }
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <MyAppBar/>
+      <MyAppBar />
       <Box display="flex" justifyContent="center" alignItems="center">
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
-            Complate Your Profile
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-                {getStepContent(activeStep)}
-          </React.Fragment>
-        </Paper>
-      </main>
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <Typography component="h1" variant="h4" align="center">
+              Complate Your Profile
+            </Typography>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <React.Fragment>{getStepContent(activeStep)}</React.Fragment>
+          </Paper>
+        </main>
       </Box>
     </React.Fragment>
   );
