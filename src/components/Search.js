@@ -26,6 +26,7 @@ export default function Search() {
   const handleChange = (event) => {
     console.log(event.target.value);
     navigate(`/genres/${event.target.value}`);
+    window.location.reload();
   };
 
   return (
@@ -37,6 +38,7 @@ export default function Search() {
             onRequestSearch={(value) => {
               console.log(value);
               navigate(`/search/${value}`);
+              window.location.reload();
             }}
             style={{
               width: "50%",
