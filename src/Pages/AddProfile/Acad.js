@@ -79,6 +79,7 @@ export default function Acad(props) {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    required
                     id="AboutYourself"
                     name="AboutYourself"
                     label="About Yourself"
