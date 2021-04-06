@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import queryString from "query-string";
 import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,11 +19,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     textAlign: "center",
   },
-  img: {
-    width: 150,
-    height: "auto",
-    borderRadius: "5px",
-  },
+
   media: {
     textAlign: "center",
   },
@@ -52,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
     fontSize: "medium",
   },
+  paper: {
+    width: 270,
+    height: 350,
+  }
 }));
 
 const Postcard = (props) => {
@@ -59,7 +60,7 @@ const Postcard = (props) => {
   const bull = <span className={classes.bullet}>➥</span>;
   const heart = <span className={classes.Heart}>❤</span>;
 
-  const Genre = props.data.genres;
+  //const Genre = props.data.genres;
 
   const cookies = new Cookies();
   const userCookie = cookies.get("userCookie");
@@ -81,53 +82,58 @@ const Postcard = (props) => {
 
   return (
     <div className="book">
-      <img src={props.data.imageUrl} />
+      <Paper className={classes.paper} >
+        <img src={props.data.imageUrl} />
 
-      <div className="book-over">
-        <Card className={classes.root} variant="outlined">
-          <CardHeader
-            className={classes.header}
-            title={props.data.title}
-            subheader={props.data.author.Fname + " " + props.data.author.Lname}
-          />
-          <CardContent>
-            <Typography variant="subtitle2" color="textSecondary" component="p">
-              {bull}{" "}
-              {Genre.map((genre) => {
-                return "|" + genre + "|" + " ";
-              })}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {props.data.description}
-            </Typography>
-
-            {userCookie == undefined ? (
-              <Typography
-                className={classes.like_in_guest}
-                variant="subtitle2"
-                color="textSecondary"
-                component="p"
-              >
-                {heart} {props.data.likes.count}
+        <div className="book-over">
+          <Card className={classes.root} variant="outlined">
+            <CardHeader
+              className={classes.header}
+              title={props.data.title}
+              subheader={props.data.author.Fname + " " + props.data.author.Lname}
+            />
+            <CardContent>
+              <Typography variant="subtitle2" color="textSecondary" component="p">
+                {bull}{" "}
+                {props.data.genres.map((genre) => {
+                  return "|" + genre + "|" + " ";
+                })}
               </Typography>
-            ) : (
-              <div className={classes.wishlist}>
-                <Button
-                  onClick={ClickMe}
-                  className={classes.button}
-                  variant="outlined"
+              <Typography variant="body2" component="p">
+                {props.data.description}
+              </Typography>
+
+              {userCookie == undefined ? (
+                <Typography
+                  className={classes.like_in_guest}
+                  variant="subtitle2"
+                  color="textSecondary"
+                  component="p"
                 >
-                  Add to My List
-                </Button>
-                <span className={classes.like}>
-                  {" "}
                   {heart} {props.data.likes.count}
-                </span>{" "}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+                </Typography>
+              ) : (
+                <div className={classes.wishlist}>
+                  <Button
+                    onClick={ClickMe}
+                    className={classes.button}
+                    variant="outlined"
+                  >
+                    Add to My List
+                </Button>
+                  <span className={classes.like}>
+                    {" "}
+                    {heart} {props.data.likes.count}
+                  </span>{" "}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </Paper>
+
+
+
     </div>
   );
 };

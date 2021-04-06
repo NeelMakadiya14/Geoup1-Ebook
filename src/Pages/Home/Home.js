@@ -20,6 +20,9 @@ import Postcard from "../../components/Postcard";
 import Search from "../../components/Search";
 // import SecondaryBar from "../../components/SecondaryBar";
 import axios from "axios";
+import Scroll from "../../components/Scroll";
+import queryString from "query-string";
+import Loader from "../../components/Loader";
 require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 20px",
+    transform: "scale(1.5)",
   },
 }));
 
@@ -136,6 +144,84 @@ export default function Home(props) {
     </div>
   );
 
+  const [drama, setDrama] = useState([]);
+  const [thriller, setThriller] = useState([]);
+  const [horror, setHorror] = useState([]);
+  const [mylist, setMylist] = useState([]);
+  const [cr, setCr] = useState([]);
+  const [mlen, setMlen] = useState(0);
+  const [clen, setClen] = useState(0);
+
+  const bull = <span className={classes.bullet}>➥</span>;
+
+  useEffect(() => {
+    axios
+      .get(
+        `${API_URL}/home/genres?` +
+        queryString.stringify({ genre: 'Drama' })
+      )
+      .then((res) => {
+        console.log("get : ", res.data);
+        setDrama(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(
+        `${API_URL}/home/genres?` +
+        queryString.stringify({ genre: 'Thriler' })
+      )
+      .then((res) => {
+        console.log("get : ", res.data);
+        setThriller(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(
+        `${API_URL}/home/genres?` +
+        queryString.stringify({ genre: 'Horror' })
+      )
+      .then((res) => {
+        console.log("get : ", res.data);
+        setHorror(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    if (userCookie !== undefined) {
+      const email = userCookie.email;
+      axios
+        .get(
+          `${API_URL}/mylist?` +
+          queryString.stringify({ email })
+        )
+        .then((res) => {
+          console.log("get : ", res.data);
+          setMylist(res.data);
+          setMlen(res.data.length);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (userCookie !== undefined) {
+      const email = userCookie.email;
+      axios
+        .get(
+          `${API_URL}/cr?` +
+          queryString.stringify({ email })
+        )
+        .then((res) => {
+          console.log("get : ", res.data);
+          setCr(res.data);
+          setClen(res.data.length);
+        })
+        .catch((err) => console.log(err));
+    }
+
+
+  }, []);
+
+
   return (
     <div className={classes.root}>
       <MyAppBar render={render} setRender={setRender} />
@@ -157,7 +243,20 @@ export default function Home(props) {
         </h1> */}
 
         <Search />
-        <Postcard data={obj} />
+
+        {userCookie == undefined ? (null) : (clen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Continue Reading : {clen}</Typography>
+          <Scroll data={cr} /> </>) : (null))
+        }
+        {userCookie == undefined ? (null) : (mlen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>   My List - {mlen}</Typography>
+          <Scroll data={mylist} /> </>) : (null))
+        }
+
+        <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Drama</Typography>
+        <Scroll data={drama} />
+        <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Thriller</Typography>
+        <Scroll data={thriller} />
+        <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Horror</Typography>
+        <Scroll data={horror} />
       </main>
     </div>
   );
