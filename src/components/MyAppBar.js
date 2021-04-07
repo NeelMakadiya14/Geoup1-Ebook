@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useContext, useEffect, useState, Fragment } from "react";
+import { fade,makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -18,9 +18,18 @@ import queryString from "query-string";
 import Button from "@material-ui/core/Button";
 import GoogleLogin from "react-google-login";
 import { GoogleOutlined } from "@ant-design/icons";
-import Navbar from "react-bootstrap/Navbar";
-import { NavDropdown, Nav } from "react-bootstrap";
 import Font, { Text } from "react-font";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Avatar from "react-avatar";
+import { useNavigate } from "@reach/router";
+import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import { StayPrimaryLandscape } from "@material-ui/icons";
+import SearchIcon from "@material-ui/icons/Search";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -29,7 +38,31 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  search: {
+    color: "white",
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white"
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white"
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white"
+    }
+  },
+  dropdown: {
+    color: "white",
+  },
+  place: {
+    color: "secondary",
+  },
 }));
+
+function sleep(delay = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
 
 export default function MyAppBar(props) {
   const classes = useStyles();
@@ -157,6 +190,76 @@ export default function MyAppBar(props) {
     ></GoogleLogin>;
   }
 
+
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [pic,setPic]=useState("");
+  const loading = open && options.length === 0;
+  const CloudName = process.env.REACT_APP_CLOUD_NAME;
+  const navigate = useNavigate();
+
+  const gotoProfile = (option) =>{
+    axios
+        .get(`${API_URL}/authorlist?name=${option}`)
+        .then((res) => {
+          console.log(res.data[0].email);
+          navigate(`/profile/${res.data[0].email}`);
+          window.location.reload();
+        })
+  }
+ 
+  React.useEffect(() => {
+    let active = true;
+
+    if (!loading) {
+      return undefined;
+    }
+
+    (async () => {
+      var option;
+      axios
+        .get(`${API_URL}/authorlist?name=${inputValue}`)
+        .then((res) => {
+          option = res.data;
+          console.log(option);
+          
+          if (active) {
+            setOptions(Object.keys(option).map((key) =>
+             option[key].Fname+ " " + option[key].Lname));
+             setPic(Object.keys(option).map((key) =>
+             option[key].picUrl));
+          }
+
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loading, inputValue, setInputValue]);
+
+  React.useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
+
+
+
+  const [isDarkMode, setDarkMode] = React.useState(false);
+
+  const toggleDarkMode = (checked) => {
+    if (checked) {
+      setTheme("dark");
+    } else {
+      setTheme("normal");
+    }
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -176,13 +279,105 @@ export default function MyAppBar(props) {
             </Button>
           </Font>
 
-          <FormControlLabel
+          {/* <FormControlLabel
             style={{ marginLeft: "5%" }}
             control={<SwitchUI checked={isDark} onChange={handleThemeChange} />}
             label="Theme"
-          />
+          /> */}
 
-          <div style={{ marginLeft: "auto", marginRight: "20px" }}>
+        <Autocomplete className={classes.search}
+            id="asynchronous-demo"
+            style={{ width: 450, marginLeft:"100px"}}
+            
+            open={open}
+            onOpen={() => {
+              setOpen(true);
+            }}
+            onClose={() => {
+              setOpen(false);
+            }}
+            disableClearable
+            forcePopupIcon={false}
+            getOptionSelected={(option) => gotoProfile(option)}
+            options={options}
+            onChange={(event, value) => console.log(value)}
+            getOptionLabel={(option) => option}
+            renderOption={option => {
+              //console.log("option.Fname: ",option.Fname);
+              var dp = `https://res.cloudinary.com/${CloudName}/image/upload/v1617627637/${pic}.jpg`;
+              console.log("pic : ", pic);
+              return(
+                <Fragment>
+                  {pic[0]===""? 
+                  <Avatar
+                  name={option[0]}
+                  size="50"
+                  font-size="35"
+                  round={true}
+                  color="Slateblue"
+                  style={{marginRight:"20px"}}
+                /> :
+                  <Avatar 
+                    src={dp}
+                    round={true}
+                    size="50"
+                    style={{marginRight:"20px"}}
+                  />
+                  }
+                  {option}
+                  </Fragment>
+
+              );
+            }}
+           
+            loading={loading}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+              console.log("newInputValue : ",newInputValue);
+              
+            }}
+           
+            renderInput={(params) => (
+              <TextField className={classes.place}
+                {...params}
+                SelectProps={{classes: {dropdown: classes.dropdown}}}
+                size="small"
+                variant="outlined"
+                placeholder="Search Author's Profile"
+
+                InputProps={{ 
+                  ...params.InputProps,
+                  endAdornment: (
+                    <React.Fragment>
+                      {/* {loading ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null} */}
+                      {params.InputProps.endAdornment}
+                      <InputAdornment position="end" style={{paddingRight:"7px"}}>
+                        <SearchIcon />
+                      </InputAdornment>
+                    </React.Fragment>
+                    
+                      
+                  )
+                }}
+              />
+            )}
+        />
+
+
+          <div style={{marginLeft:"auto",marginRight:"15px", float:"left"}}>
+          <DarkModeSwitch
+            style={{height:"35px", paddingTop:"5px"}}
+            checked={isDark}
+            onChange={toggleDarkMode}
+            size={35}
+          />
+            </div>
+
+          <div style={{  marginRight: "20px", float:"left"}}>
+          
+          
             {userCookie == undefined ? null : isAuthor ? (
               <Button
                 size="large"
