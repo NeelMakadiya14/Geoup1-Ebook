@@ -6,6 +6,10 @@ import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import RoomIcon from "@material-ui/icons/Room";
 import MyAppBar from "../../components/MyAppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import { Card, CardMedia, Grid, Divider, Typography } from "@material-ui/core";
+import Postcard from "../../components/Postcard";
+import { LinkOutlined } from "@ant-design/icons";
+import Loader from "../../components/Loader";
 
 import "./profile.css";
 
@@ -15,8 +19,11 @@ require("dotenv").config();
 
 export default function Profile(props) {
   const [profile, setProfile] = useState();
+  const [published, setPublished] = useState([]);
+  const [pending, setPending] = useState([]);
 
   const API_URL = process.env.REACT_APP_BACKEND_URL;
+  const CloudName = process.env.REACT_APP_CLOUD_NAME;
 
   useEffect(() => {
     axios
@@ -27,6 +34,10 @@ export default function Profile(props) {
         const data = response.data[0];
         setProfile(data);
         console.log(profile);
+        const pub = data.books.filter((book) => book.state === "Published");
+        const pen = data.books.filter((book) => book.state !== "Published");
+        setPublished(pub);
+        setPending(pen);
       })
       .catch(() => {
         console.log("Error!");
@@ -41,12 +52,24 @@ export default function Profile(props) {
     <div>
       <MyAppBar />
       <Toolbar />
+      {console.log("pro : ", profile)}
       {profile ? (
         <div className="page">
           <div className="profile">
             <div className="profilepic">
               {profile.picUrl ? (
-                profile.picUrl
+                <Card
+                  style={{ height: "10%", width: "50%", borderRadius: "50%" }}
+                >
+                  <CardMedia
+                    style={{
+                      height: 0,
+                      paddingTop: "100%",
+                      borderRadius: "50%",
+                    }}
+                    image={`https://res.cloudinary.com/${CloudName}/image/upload/v1615719550/${profile.picUrl}`}
+                  />
+                </Card>
               ) : (
                 <Avatar
                   name={profile.Fname}
@@ -124,43 +147,90 @@ export default function Profile(props) {
               ) : null}
             </div>
 
-            <div className="Company">
-              <p className="Company1">WORK-details</p>
-              <p className="Company2">
-                <HomeWorkIcon
-                  style={{ color: "brown" }}
-                  fontSize="large"
-                ></HomeWorkIcon>{" "}
-                {profile.Company}
-                <br></br>
-                <RoomIcon
-                  style={{ color: "black" }}
-                  fontSize="large"
-                ></RoomIcon>
-                {profile.Clocation}
-              </p>
-            </div>
+            {profile.Website ? (
+              <div className="Mnumber">
+                <p className="Mnumber1">
+                  <LinkOutlined />
+                  {"  "}
+                  {profile.Website}
+                </p>
+              </div>
+            ) : null}
 
+            <Divider style={{ marginRight: "7%" }} />
+            {profile.Company ? (
+              <div className="Company">
+                <p className="Company1">WORK-details</p>
+                <p className="Company2">
+                  <HomeWorkIcon
+                    color="secondary"
+                    fontSize="large"
+                  ></HomeWorkIcon>{" "}
+                  {profile.Company}
+                  <br></br>
+                  {profile.Clocation ? (
+                    <div>
+                      <RoomIcon color="secondary" fontSize="large"></RoomIcon>
+                      {profile.Clocation}
+                    </div>
+                  ) : null}
+                </p>
+              </div>
+            ) : null}
+
+            <Divider style={{ marginRight: "7%" }} />
             <div className="Location">
               <p className="Location1">LOCATION</p>
               <p className="Location2">
-                <HomeIcon color="primary" fontSize="large" />{" "}
-                {profile.City ? profile.City : null},
-                {profile.State ? profile.State : null},{profile.Country}
+                <HomeIcon color="secondary" fontSize="large" />{" "}
+                {profile.City ? profile.City + ", " : null}
+                {profile.State ? profile.State + ", " : null}
+                {profile.Country}
               </p>
             </div>
           </div>
 
           <div className="bio">
-            <p className="bio2">BIO:</p>
+            <Typography className="bio2" color="secondary" variant="h5">
+              BIO:
+            </Typography>
             <p className="bio1">{profile.Bio}</p>
           </div>
 
-          <div className="posts">
-            <p className="posts1">UPLOADS:</p>
-          </div>
+          {pending.length > 0 ? (
+            <div className="posts">
+              <Typography className="posts1" color="secondary" variant="h5">
+                Editing / Submitted:
+              </Typography>
+              <Grid container spacing={2}>
+                {pending.map((x, i) => (
+                  <Grid item xs={4}>
+                    <Postcard data={x} key={i} />
+                  </Grid>
+                ))}
+              </Grid>
+              <Divider style={{ margin: "2%" }} />
+            </div>
+          ) : null}
+
+          {published.length > 0 ? (
+            <div className="posts">
+              <Typography className="posts1" color="secondary" variant="h5">
+                Published:
+              </Typography>
+              <Grid container spacing={2}>
+                {published.map((x, i) => (
+                  <Grid item xs={4}>
+                    <Postcard data={x} key={i} />
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          ) : null}
         </div>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }
