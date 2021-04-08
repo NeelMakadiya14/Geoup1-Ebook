@@ -55,7 +55,7 @@ export default function MyAppBar(props) {
   const userCookie = cookies.get("userCookie");
   console.log("MYAPPBAR...");
   const [isAuthor, setAuthor] = React.useState(false);
-
+  const [unfinishedBook, setUnfinishedBook] = React.useState(false);
   const API_URL = process.env.REACT_APP_BACKEND_URL;
   const client_id = process.env.REACT_APP_CLIENT_ID;
 
@@ -69,6 +69,17 @@ export default function MyAppBar(props) {
           console.log(res.data);
           res.data ? setAuthor(true) : setAuthor(false);
           console.log("Value : ", isAuthor);
+        })
+        .catch((err) => console.log(err));
+
+      axios.get(`${API_URL}/count/unfinished?` + queryString.stringify({ email }))
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.count >= 3) {
+            setUnfinishedBook(true);
+          } else {
+            setUnfinishedBook(false);
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -87,6 +98,8 @@ export default function MyAppBar(props) {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+
+
 
   const logout = (e) => {
     //const { cookies } = this.props;
@@ -183,23 +196,37 @@ export default function MyAppBar(props) {
           />
 
           <div style={{ marginLeft: "auto", marginRight: "20px" }}>
-            {userCookie == undefined ? null : isAuthor ? (
-              <Button
-                size="large"
-                href={`/edit/${id}`}
-                style={{ paddingRight: "20px", color: "white" }}
-              >
-                Create New Book
-              </Button>
-            ) : (
-              <Button
-                size="large"
-                href="/editprofile"
-                style={{ paddingRight: "20px", color: "white" }}
-              >
-                Create New Book
-              </Button>
-            )}
+            {userCookie == undefined ? null : isAuthor ?
+              (unfinishedBook ?
+                (
+                  <Button
+                    size="large"
+                    href={`/`}
+                    style={{ paddingRight: "20px", color: "white" }}
+                    onClick={() => alert('Already 3 unfinished book.')}
+                  >
+                    Create New Book
+                  </Button>
+                ) :
+                (
+                  <Button
+                    size="large"
+                    href={`/edit/${id}`}
+                    style={{ paddingRight: "20px", color: "white" }}
+                  >
+                    Create New Book
+                  </Button>
+                )
+              )
+              : (
+                <Button
+                  size="large"
+                  href="/editprofile"
+                  style={{ paddingRight: "20px", color: "white" }}
+                >
+                  Create New Book
+                </Button>
+              )}
 
             {userCookie === undefined ? (
               <GoogleLogin
@@ -235,7 +262,7 @@ export default function MyAppBar(props) {
           </div>
         </Toolbar>
       </AppBar>
-      {renderMenu}
-    </div>
+      { renderMenu}
+    </div >
   );
 }

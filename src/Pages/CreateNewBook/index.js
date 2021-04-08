@@ -5,39 +5,46 @@ import axios from 'axios';
 import queryString from 'query-string';
 import { CookiesProvider, Cookies, useCookies } from 'react-cookie';
 import { Redirect } from "@reach/router";
+import { ConsoleSqlOutlined } from '@ant-design/icons';
+import { AirlineSeatLegroomExtra } from '@material-ui/icons';
 
 require('dotenv').config();
 
 export default function Room(props) {
 
     console.log();
-    let id = window.location.pathname;
-    id = id.substring(6);
+    let docID = window.location.pathname;
+    docID = docID.substring(6);
+    const cookies = new Cookies();
+    const userCookie = cookies.get('userCookie');
+    const email = userCookie.email;
     const API_URL = process.env.REACT_APP_BACKEND_URL;
 
     const [showEditor, setShowEditor] = useState(false);
+    const [access, setAccess] = useState(false);
 
-    const cookies = new Cookies();
-    const userCookie = cookies.get('userCookie');
-    const email =  userCookie.email;
+    useEffect(() => {
+        axios.get(`${API_URL}/checkbook?` + queryString.stringify({ docID }))
+            .then((res) => {
+                console.log(res);
+                if (res.data === true) setShowEditor(true);
+                else setShowEditor(false);
+            })
 
-    axios.get(`${API_URL}/checkauthor?` + queryString.stringify({ email }))
-    .then((res) => {
-        if (typeof (res.data.length) === 'undefined') {
-            <Redirect to = "/addprofile" />
-        }
-    })
+        axios.get(`${API_URL}/checkaccess?` + queryString.stringify({ docID }) + '&' + queryString.stringify({ email }))
+            .then((res) => {
+                console.log(res);
+                if (res.data === true) setAccess(true);
+                else setAccess(false);
+            })
 
-    axios.get(`${API_URL}/checkbook?` + queryString.stringify({ id }))
-    .then((res) => {
-        if (res.data === true) setShowEditor(true);
-        else setShowEditor(false);
-    })
+    }, [props.render]);
 
     return (
         <>
             {!showEditor && <Form />}
-            {showEditor && <Editor />}
+            {showEditor && access && <Editor />}
+            {showEditor && !access && <h1> You dont have access of editing this book.</h1>}
         </>
     )
 }

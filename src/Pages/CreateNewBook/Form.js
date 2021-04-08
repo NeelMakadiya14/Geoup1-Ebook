@@ -17,8 +17,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Email } from '@material-ui/icons';
-
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { genres } from '../../utils/Constant';
 
 
 require('dotenv').config();
@@ -50,9 +50,11 @@ export default function Form() {
     const classes = useStyles();
     const [bookname, setBookName] = useState('');
     const [description, setDescription] = useState('');
-    const [genre, setGenre] = useState('');
+    const [genre, setGenre] = useState({});
 
     const [err, setErr] = useState(false);
+
+
 
     const onClick = () => {
 
@@ -61,31 +63,24 @@ export default function Form() {
             return;
         }
         setErr(false);
-
         const cookies = new Cookies();
         const userCookie = cookies.get('userCookie');
         const email = userCookie.email;
         const API_URL = process.env.REACT_APP_BACKEND_URL;
         console.log(userCookie.GID);
+        let id = window.location.pathname;
+        id = id.substring(6);
+        console.log(genre);
         const obj = {
             title: bookname,
             description: description,
             genres: genre,
-            authorId: userCookie.GID
+            docID: id
         }
-        // axios.post(`${API_URL}/startwriting?` + queryString.stringify({ email }), obj)
-        //     .then((res) => console.log(res))
-        //     .catch((err) => console.log(err));
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(obj)
-        };
-        fetch(`${API_URL}/startwriting?` + queryString.stringify({ email }), requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch((err) => console.log(err));
+        axios.post(`${API_URL}/startwriting?` + queryString.stringify({ email }), obj)
+            .then((res) => {
+                window.location.reload();
+            })
     }
 
 
@@ -136,26 +131,24 @@ export default function Form() {
                     />
 
 
-                    <InputLabel id="demo-simple-select-label"> Genres </InputLabel>
-                    <Select
-                        fullWidth
-                        variant="outlined"
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={genre}
-                        onChange={event => setGenre(event.target.value)}
-                    >
-                        <MenuItem value={"Comedy"} > Comedy </MenuItem>
-                        <MenuItem value={"Horror"}> Horror </MenuItem>
-                        <MenuItem value={"Mystery"}> Mystery </MenuItem>
-                        <MenuItem value={"Romance"}> Romance      </MenuItem>
-                        <MenuItem value={"Short-Story"}> Short-Story </MenuItem>
-                        <MenuItem value={"Humor"}> Humor </MenuItem>
-                        <MenuItem value={"Thriller"}> Thriller  </MenuItem>
-                        <MenuItem value={"Drama"}> Drama </MenuItem>
-                        <MenuItem value={"Auto-Biography"}> Auto-Biography </MenuItem>
-
-                    </Select>
+                    <div className={classes.root}>
+                        <Autocomplete
+                            multiple
+                            id="tags-outlined"
+                            options={genres}
+                            getOptionLabel={(option) => option}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="outlined"
+                                    label="Genres of Book"
+                                    placeholder="new genre"
+                                />
+                            )}
+                            onChange={(event, value) => setGenre(value)}
+                        />
+                    </div>
 
                     <Button
                         fullWidth
