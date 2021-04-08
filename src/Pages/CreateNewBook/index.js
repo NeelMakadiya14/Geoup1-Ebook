@@ -12,7 +12,6 @@ require('dotenv').config();
 
 export default function Room(props) {
 
-    console.log();
     let docID = window.location.pathname;
     docID = docID.substring(6);
     const cookies = new Cookies();
