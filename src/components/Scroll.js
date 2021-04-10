@@ -31,6 +31,7 @@ const Scroll = (props) => {
 
 
     return (
+
         <div className={classes.content}>
             <Carousel itemPosition={consts.START} breakPoints={breakPoints} showEmptySlots>
                 {
@@ -43,8 +44,11 @@ const Scroll = (props) => {
                 }
             </Carousel>
         </div>
-
     );
+
+
+
+
 };
 
 export default Scroll;

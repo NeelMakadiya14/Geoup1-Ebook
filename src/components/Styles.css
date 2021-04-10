@@ -41,3 +41,97 @@
 button.rec-dot{
     visibility: hidden;
 }
+
+
+/*
+  .square {
+    width: 200px;
+    height: 270px;
+    margin-top: 50px;
+    margin-left: 40%;
+  }
+
+  .square img{
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+  }
+
+.cover{
+    width: 250px;
+    height: 300px;
+    display: none;
+}
+  .square:hover .cover{
+    transform: translateY(-90%) translateX(-10%) scale(1.25);
+    transition: transform 1s ease-out;
+    display: block; 
+  }
+
+  */
+
+  .square {
+    width: 230px;
+    height: 300px;
+   
+    margin-top: 10%;
+    margin-left: 10px;
+    transition: transform 100ms ease-out, border-radius 200ms ease-out;
+    
+  }
+  
+  .square .cover {
+    width: 230px;
+    height: 300px;
+    border-radius: 2px 2px 2px 2px;
+    background-size: 100% 100%!important;
+    
+  }
+  
+  .square .text {
+    display: none;
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    box-sizing: border-box;
+    transition: opacity 300ms ease-out, border-radius 200ms ease-out;
+    border-radius: 2px 2px 2px 2px;
+  }
+  
+  .square:hover {
+    border-radius: 2px;
+    transform: scale(1.2,1.45);
+    box-shadow: 0 0 2px #000a;
+  }
+  
+  .square:hover .text {
+    display: block;
+    z-index: 1;
+  }
+  
+ /* .square.one .cover {
+    background: url(https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335), skyblue;
+  } */
+  
+  .square:hover .cover {
+   width: 100%;
+   height: 43%;
+   background-size: cover!important;
+   z-index: 1;
+   
+    /*background: url(https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335); */
+  }
+  
+  .square .text .info {
+    font-size: 12px;
+  }
+  
+  .icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.3rem;
+  }
+  
+  
+ 

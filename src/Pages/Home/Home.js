@@ -245,18 +245,19 @@ export default function Home(props) {
         <Search />
 
         {userCookie == undefined ? (null) : (clen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Continue Reading : {clen}</Typography>
-          <Scroll data={cr} /> </>) : (null))
+          <Scroll data={cr} isAdd={false} /> </>) : (null))
         }
         {userCookie == undefined ? (null) : (mlen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>   My List - {mlen}</Typography>
-          <Scroll data={mylist} /> </>) : (null))
+          <Scroll data={mylist} isAdd={true} /> </>) : (null))
         }
 
         <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Drama</Typography>
-        <Scroll data={drama} />
+        <Scroll data={drama} isAdd={false} />
         <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Thriller</Typography>
-        <Scroll data={thriller} />
+        <Scroll data={thriller} isAdd={false} />
         <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Horror</Typography>
-        <Scroll data={horror} />
+        <Scroll data={horror} isAdd={false} />
+
       </main>
     </div>
   );
