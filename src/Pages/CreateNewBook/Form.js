@@ -52,17 +52,7 @@ export default function Form() {
     const [description, setDescription] = useState('');
     const [genre, setGenre] = useState({});
 
-    const [err, setErr] = useState(false);
-
-
-
-    const onClick = () => {
-
-        if (!bookname.trim()) {
-            setErr(true);
-            return;
-        }
-        setErr(false);
+    const submit = () => {
         const cookies = new Cookies();
         const userCookie = cookies.get('userCookie');
         const email = userCookie.email;
@@ -83,8 +73,10 @@ export default function Form() {
             })
     }
 
-
-
+    const onClick = () => {
+        if (formRef.current.reportValidity()) submit();
+    }
+    const formRef = React.useRef();
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -95,61 +87,39 @@ export default function Form() {
                 <Typography component="h1" variant="h5">
                     Create New Book
                 </Typography>
-                <form className={classes.form} noValidate>
-                    {err && bookname.length === 0 ?
-                        <TextField error
-                            className="color"
-                            variant="outlined"
-                            margin="normal"
-                            id="outlined-error"
-                            required
-                            fullWidth
-                            label="Book Name"
-                            id="standard-error-helper-text"
-                            helperText="Enter book name"
-                            onChange={event => setBookName(event.target.value)}
-                        />
-                        :
-                        <TextField
-                            className="color"
-                            variant="outlined"
-                            margin="normal"
-                            id="outlined-error"
-                            required
-                            fullWidth
-                            label="Book Name"
-                            onChange={event => setBookName(event.target.value)}
-                        />
-                    }
-
+                <form className={classes.form} ref={formRef} >
                     <TextField
                         variant="outlined"
+                        required
+                        fullWidth
                         margin="normal"
+                        label="Book Name"
+                        onChange={event => setBookName(event.target.value)}
+                    />
+                    <TextField
+                        variant="outlined"
                         fullWidth
                         label="Description"
+                        margin="normal"
                         onChange={event => setDescription(event.target.value)}
                     />
-
-
-                    <div className={classes.root}>
-                        <Autocomplete
-                            multiple
-                            id="tags-outlined"
-                            options={genres}
-                            getOptionLabel={(option) => option}
-                            filterSelectedOptions
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    variant="outlined"
-                                    label="Genres of Book"
-                                    placeholder="new genre"
-                                />
-                            )}
-                            onChange={(event, value) => setGenre(value)}
-                        />
-                    </div>
-
+                    <Autocomplete
+                        multiple
+                        options={genres}
+                        style={{ marginTop: "15px" }}
+                        getOptionLabel={(option) => option}
+                        filterSelectedOptions
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                required={genre.length === undefined || genre.length === 0}
+                                variant="outlined"
+                                label="Genres of Book"
+                                placeholder="new genre"
+                            />
+                        )}
+                        onChange={(event, value) => setGenre(value)}
+                    />
                     <Button
                         fullWidth
                         variant="contained"
@@ -159,7 +129,6 @@ export default function Form() {
                     >
                         Create Book
                     </Button>
-
                 </form>
             </div>
 

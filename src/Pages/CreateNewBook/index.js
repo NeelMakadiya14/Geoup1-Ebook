@@ -43,7 +43,7 @@ export default function Room(props) {
         <>
             {!showEditor && <Form />}
             {showEditor && access && <Editor />}
-            {showEditor && !access && <h1> You dont have access of editing this book.</h1>}
+            {showEditor && !access && <h1> Sorry You don't have the editing access on this doc.</h1>}
         </>
     )
 }

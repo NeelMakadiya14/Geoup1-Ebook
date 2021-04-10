@@ -24,7 +24,6 @@ import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Avatar from "react-avatar";
 import { useNavigate } from "@reach/router";
-import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { StayPrimaryLandscape } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -370,7 +369,6 @@ export default function MyAppBar(props) {
             )}
           />
 
-<<<<<<< HEAD
           <div style={{ marginLeft: "auto", marginRight: "20px" }}>
             {userCookie == undefined ? null : isAuthor ?
               (unfinishedBook ?
@@ -403,37 +401,6 @@ export default function MyAppBar(props) {
                   Create New Book
                 </Button>
               )}
-=======
-          <div
-            style={{ marginLeft: "auto", marginRight: "15px", float: "left" }}
-          >
-            <DarkModeSwitch
-              style={{ height: "35px", paddingTop: "5px" }}
-              checked={isDark}
-              onChange={toggleDarkMode}
-              size={35}
-            />
-          </div>
-
-          <div style={{ marginRight: "20px", float: "left" }}>
-            {userCookie == undefined ? null : isAuthor ? (
-              <Button
-                size="large"
-                href={`/edit/${id}`}
-                style={{ paddingRight: "20px", color: "white" }}
-              >
-                Create New Book
-              </Button>
-            ) : (
-              <Button
-                size="large"
-                href="/editprofile"
-                style={{ paddingRight: "20px", color: "white" }}
-              >
-                Create New Book
-              </Button>
-            )}
->>>>>>> upstream/201801175
 
             {userCookie === undefined ? (
               <GoogleLogin
