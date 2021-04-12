@@ -15,6 +15,9 @@ export default function ReadingThread(props) {
     event.preventDefault();
   });
 
+
+  
+
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
     setPageNumber(1);
