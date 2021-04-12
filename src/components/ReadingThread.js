@@ -35,7 +35,24 @@ export default function ReadingThread(props) {
   return (
     <>
       <div className="main">
-        <Document
+        <div className="buttonc">
+          <button
+            type="button"
+            disabled={pageNumber <= 1}
+            onClick={previousPage}
+            className="Pre"
+          >
+            Previous
+            </button>
+          <button
+            type="button"
+            disabled={pageNumber >= numPages}
+            onClick={nextPage}
+          >
+            Next
+            </button>
+        </div>
+        <Document style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
           file={`${API_URL}/book?docID=${props.bookID}`}
           onLoadSuccess={onDocumentLoadSuccess}
         >
@@ -44,23 +61,6 @@ export default function ReadingThread(props) {
         <div>
           <div className="pagec">
             Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
-          </div>
-          <div className="buttonc">
-            <button
-              type="button"
-              disabled={pageNumber <= 1}
-              onClick={previousPage}
-              className="Pre"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={pageNumber >= numPages}
-              onClick={nextPage}
-            >
-              Next
-            </button>
           </div>
         </div>
       </div>
