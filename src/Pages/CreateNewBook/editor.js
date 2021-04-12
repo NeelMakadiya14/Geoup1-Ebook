@@ -19,6 +19,7 @@ import queryString from "query-string";
 import axios from "axios";
 import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js"
+//import Button from '@material-ui/core/Button';
 //import Parchment from 'parchment'
 //import ImageResize from 'quill-image-resize-module';
 
@@ -146,7 +147,9 @@ export default function Room(props) {
           </Grid>
         </Grid>
       </div>
-      <button onClick={OnSave}>Download PDF</button>
+      <div style={{ padding: '15px', display: 'flex', alignItems: "center", justifyContent: "center" }}>
+        <Button variant="contained" color="primary" onClick={OnSave}>Download PDF</Button>
+      </div>
     </div>
   );
 }
