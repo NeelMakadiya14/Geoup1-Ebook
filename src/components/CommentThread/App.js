@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import './style.css'
+import { BrowserRouter as Router} from 'react-router-dom'
 //import Header from './components/Header'
-import Tasks from './Tasks'
-import Comment from './Comment'
-//import About from './components/About'
-import { Cookies } from 'react-cookie'
-const cookies = new Cookies();
-const email = cookies.get('userCookie').Email;
-const googleToken = cookies.get('userCookie').Token;
-let name, userId, username;
+import Tasks from './components/Tasks'
+import Comments from './components/Comments'
+// import About from './components/About'
+// import { Cookies } from 'react-cookie'
+// const cookies = new Cookies();
+// const email = cookies.get('userCookie').Email;
+// const googleToken = cookies.get('userCookie').Token;
+// let name, userId, username;
 
-export default function Comments(props) {
+const App = ({pops}) => {
   //const [showAddTask, setShowAddTask] = useState(true)
   const [tasks, setTasks] = useState([])
 
@@ -20,17 +19,17 @@ export default function Comments(props) {
       const tasksFromServer = await fetchTasks()
       setTasks(tasksFromServer)
     }
-    if (cookies.get('userDetails')) {
-      name = cookies.get('userDetails').name;
-      //userId = cookies.get('userDetails')._id;
-      username = cookies.get('userDetails').username;
-    }
+    // if (cookies.get('userDetails')) {
+    //   name = cookies.get('userDetails').name;
+    //   //userId = cookies.get('userDetails')._id;
+    //   username = cookies.get('userDetails').username;
+    // }
     getTasks()
   }, [])
 
   // Fetch Tasks
   const fetchTasks = async () => {
-    const res = await fetch('https://e-book-backend.herokuapp.com/addcomment')
+    const res = await fetch('http://localhost:8000/tasks')
     const data = await res.json()
 
     return data
@@ -38,7 +37,7 @@ export default function Comments(props) {
 
   // Add Task
   const addTask = async (task) => {
-    const res = await fetch('https://e-book-backend.herokuapp.com/addcomment', {
+    const res = await fetch('http://localhost:8000/tasks', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -63,25 +62,27 @@ export default function Comments(props) {
       : alert('Error Deleting This Task')
   }*/
 
-
+  
 
   return (
     <Router>
       <div className='container'>
-        <h1>Comments</h1>
+      <h1>Comments</h1>
 
-        <>
-          <Comment onAdd={addTask} name={name} username={username} props={props} />
-          {tasks.length > 0 ? (
-            <Tasks
-              tasks={tasks}
-            />
-          ) : (
-            'No Comments'
-          )}
-        </>
-
+            <>
+              <Comments onAdd={addTask}/>
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                />
+              ) : (
+                'No Comments'
+              )}
+            </>
+            
       </div>
     </Router>
   )
 }
+
+export default App
