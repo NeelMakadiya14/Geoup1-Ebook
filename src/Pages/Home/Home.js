@@ -23,6 +23,7 @@ import axios from "axios";
 import Scroll from "../../components/Scroll";
 import queryString from "query-string";
 import Loader from "../../components/Loader";
+import "../../components/Styles.css"
 require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
@@ -243,8 +244,8 @@ export default function Home(props) {
         </h1> */}
 
         <Search />
-
-        {userCookie == undefined ? (null) : (clen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Continue Reading : {clen}</Typography>
+        <Postcard data={obj} />
+        {/* {userCookie == undefined ? (null) : (clen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Continue Reading : {clen}</Typography>
           <Scroll data={cr} isAdd={false} /> </>) : (null))
         }
         {userCookie == undefined ? (null) : (mlen > 0 ? (<> <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>   My List - {mlen}</Typography>
@@ -256,7 +257,8 @@ export default function Home(props) {
         <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Thriller</Typography>
         <Scroll data={thriller} isAdd={false} />
         <Typography variant="h4" color="textSecondary" style={{ marginTop: '10px', marginLeft: '80px' }}>  Horror</Typography>
-        <Scroll data={horror} isAdd={false} />
+      <Scroll data={horror} isAdd={false} /> */}
+
 
       </main>
     </div>

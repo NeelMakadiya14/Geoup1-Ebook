@@ -32,7 +32,7 @@ const Scroll = (props) => {
 
     return (
 
-        <div className={classes.content}>
+        /*<div className={classes.content}>
             <Carousel itemPosition={consts.START} breakPoints={breakPoints} showEmptySlots>
                 {
                     props.data.map((x, i) => (
@@ -43,6 +43,11 @@ const Scroll = (props) => {
                     ))
                 }
             </Carousel>
+        </div> */
+        <div className="wrapper">
+            <div className="scroll">
+                {props.data.map((x, i) => (<Postcard data={x} key={i} />))}
+            </div>
         </div>
     );
 

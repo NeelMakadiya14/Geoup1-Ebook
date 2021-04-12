@@ -29,22 +29,23 @@ const useStyles = makeStyles((theme) => ({
     transform: "scale(1)",
   },
   like: {
-    fontSize: "small",
-    color: "#666666"
+    fontSize: 10,
+    color: "#999999"
   },
-  Heart: {
-    transform: "scale(1)",
+  heart: {
+    paddingLeft: '0.2rem',
   },
   button: {
-    fontSize: '8px',
-    height: 18,
-    width: 120,
+    fontSize: 8,
+    height: 22,
+    width: 65,
   },
   wishlist: {
     alignItems: "center",
     justifyContent: "space-between",
     display: "flex",
-
+    padding: "0.2rem",
+    paddingTop: "0.3rem"
   },
   like_in_guest: {
     textAlign: "right",
@@ -54,17 +55,24 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 270,
   },
-  des: {
-    fontSize: 10
-  },
   title: {
-    fontSize: 12,
     textAlign: 'center',
+    fontSize: 12,
+    paddingTop: '1rem'
   },
   author: {
-    fontSize: 11,
     textAlign: 'center',
-    paddingBottom: '0.1rem'
+    fontSize: 10,
+    paddingBottom: '0.8rem'
+  },
+  genre: {
+    fontSize: 9,
+    paddingBottom: '0.2rem'
+  },
+  des: {
+    fontSize: 10,
+    paddingBottom: '0.5rem',
+    paddingLeft: '0.2rem',
   },
   info: {
     backgroundColor: theme.palette.background.paper
@@ -74,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 const Postcard = (props) => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>➥</span>;
-  const heart = <span className={classes.Heart}>❤</span>;
+  const heart = <span className={classes.heart}>❤</span>;
 
   //const Genre = props.data.genres;
 
@@ -103,81 +111,22 @@ const Postcard = (props) => {
   };
 
   return (
-    /* <div className="book">
-       <Paper className={classes.paper} >
-         <img src={props.data.imageUrl} />
- 
-         <div className="book-over">
-           <Card className={classes.root} variant="outlined">
-             <CardHeader
-               className={classes.header}
-               title={props.data.title}
-               subheader={props.data.author.Fname + " " + props.data.author.Lname}
-             />
-             <CardContent>
-               <Typography variant="subtitle2" color="textSecondary" component="p">
-                 {bull}{" "}
-                 {props.data.genres.map((genre) => {
-                   return "|" + genre + "|" + " ";
-                 })}
-               </Typography>
-               <Typography variant="body2" component="p">
-                 {props.data.description}
-               </Typography>
- 
-               {userCookie == undefined ? (
-                 <Typography
-                   className={classes.like_in_guest}
-                   variant="subtitle2"
-                   color="textSecondary"
-                   component="p"
-                 >
-                   {heart} {props.data.likes.count}
-                 </Typography>
-               ) : (
-                 <div className={classes.wishlist}>
-                   <Button
-                     onClick={ClickMe}
-                     className={classes.button}
-                     variant="outlined"
-                   >
-                     Add to My List
-                 </Button>
-                   <span className={classes.like}>
-                     {" "}
-                     {heart} {props.data.likes.count}
-                   </span>{" "}
-                 </div>
-               )}
-             </CardContent>
-           </Card>
-         </div>
-       </Paper>
-     </div> */
 
-    /*  <div class="square one">
-        <div class="cover"></div>
-        <div class="text">
-          Never Gonna Give You Up!
-       </div>
-      </div> */
-
-    <div class="square">
-      <div class="cover" style={{ backgroundImage: `url(${props.data.imageUrl})` }}></div>
-      <div class="text">
-
-        <div class="info" >
-          <Typography className={classes.title} color="textPrimary">{props.data.title}</Typography>
-          <Typography className={classes.author} color="textSecondary">{"- "}{props.data.author.Fname + " " + props.data.author.Lname}</Typography>
-          <Typography variant="subtitle2" color="textSecondary" component="p" className={classes.des}>
-            {bull}{" "}
-            {props.data.genres.map((genre) => {
-              return "|" + genre + "|" + " ";
-            })}
-          </Typography>
-          <Typography className={classes.des} variant="body2" component="p">{props.data.description.length > 300 ? (props.data.description.slice(0, 300) + ("...")) : (props.data.description)}</Typography>
-        </div>
-        <div class="icons">
+    <div className="box">
+      <Paper className="image" elevation={3}>
+        <img src={props.data.imageUrl} />
+      </Paper>
+      <Paper className="details">
+        <Typography className={classes.title} color="textPrimary">{props.data.title}</Typography>
+        <Typography className={classes.author} color="textSecondary">{"- "}{props.data.author.Fname + " " + props.data.author.Lname}</Typography>
+        <Typography className={classes.genre} variant="subtitle2" color="textSecondary" component="p" >
+          {bull}{" "}
+          {props.data.genres.map((genre) => {
+            return "|" + genre + "|" + " ";
+          })}
+        </Typography>
+        <Typography className={classes.des} variant="body2" component="p">{props.data.description.length > 300 ? (props.data.description.slice(0, 300) + ("...")) : (props.data.description)}</Typography>
+        <div className={classes.wishlist}>
 
           <span>{userCookie !== undefined ? (<Button
             onClick={ClickMe}
@@ -185,18 +134,15 @@ const Postcard = (props) => {
             color="primary"
             variant="contained" disableElevation
           >
-            {props.isAdd == true ? ("Remove from list") : ("Add to My List")}
+            {props.isAdd == true ? ("Remove") : ("My List")}
 
           </Button>) : (null)}</span>
           <span className={classes.like}>
-            {" "}
             {heart} {props.data.likes.count}
           </span>
         </div>
-
-      </div>
+      </Paper>
     </div>
-
 
   );
 };

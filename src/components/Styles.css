@@ -1,137 +1,58 @@
-.book{
-    width: 270px;
-    position: relative;
-    margin: 1rem;
-    overflow: hidden;
+
+  
+.box {
+  width: 230px;
+  height: 300px;
+  margin: 1rem;
+  margin-left: 5%;
+  transition: transform 200ms ease-out;
 }
 
-.book img{
-    width: 100%;
-    height: 100%;
-    border-radius: 3px;
-}
-
-.book-over{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(100%);
-    transition: transform 0.3s ease-in-out;
-    max-height: 100%;
-    overflow: auto;
-}
-
-.book:hover .book-over{
-    transform: translateY(0%);
-}
-
-.book-over::-webkit-scrollbar{
-    display: none;
-}
-
-.rec.rec-arrow:disabled {
-    visibility: hidden;
-}
-
-.rec.rec-arrow {
-    background-color: #e6e6e6;
-}
-
-button.rec-dot{
-    visibility: hidden;
-}
-
-
-/*
-  .square {
-    width: 200px;
-    height: 270px;
-    margin-top: 50px;
-    margin-left: 40%;
-  }
-
-  .square img{
-    width: 100%;
-    height: 100%;
-    border-radius: 3px;
-  }
-
-.cover{
-    width: 250px;
-    height: 300px;
-    display: none;
-}
-  .square:hover .cover{
-    transform: translateY(-90%) translateX(-10%) scale(1.25);
-    transition: transform 1s ease-out;
-    display: block; 
-  }
-
-  */
-
-  .square {
+  .image {
     width: 230px;
     height: 300px;
-   
-    margin-top: 10%;
-    margin-left: 10px;
-    transition: transform 100ms ease-out, border-radius 200ms ease-out;
-    
   }
-  
-  .square .cover {
-    width: 230px;
-    height: 300px;
-    border-radius: 2px 2px 2px 2px;
-    background-size: 100% 100%!important;
-    
-  }
-  
-  .square .text {
-    display: none;
-    width: 100%;
-    height: auto;
-    padding: 5px;
-    box-sizing: border-box;
-    transition: opacity 300ms ease-out, border-radius 200ms ease-out;
-    border-radius: 2px 2px 2px 2px;
-  }
-  
-  .square:hover {
-    border-radius: 2px;
-    transform: scale(1.2,1.45);
-    box-shadow: 0 0 2px #000a;
-  }
-  
-  .square:hover .text {
-    display: block;
-    z-index: 1;
-  }
-  
- /* .square.one .cover {
-    background: url(https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335), skyblue;
-  } */
-  
-  .square:hover .cover {
+
+ .box img{
    width: 100%;
-   height: 43%;
-   background-size: cover!important;
+   height: 100%;
+   border-radius: 2px;
+ }
+ 
+ .box .details {
+   width: 230px;
+   height: 300px;
+   border-radius: 2px;
+   display: none;
+ }
+
+ .box:hover {
+   border-radius: 2px;
+   transform: scale(2,1.1);
    z-index: 1;
-   
-    /*background: url(https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335); */
-  }
+   display: flex;
   
-  .square .text .info {
-    font-size: 12px;
-  }
+ }
+
+ .box:hover .image{
+   width: 50%;
+   height: 100%;
+ }
+
+ .box:hover .details{
+   display: block;
+   width: 50%;
+   height: 100%;
+ }
+
+
+
+.scroll {
+  overflow-x: scroll;
+  display: flex;
   
-  .icons {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 0.3rem;
-  }
-  
-  
+}
+
+
+ 
  
