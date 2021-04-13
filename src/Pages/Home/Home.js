@@ -216,7 +216,7 @@ export default function Home(props) {
               <Scroll
                 data={cr}
                 isAdd={false}
-                lable={`Continue Reading : ${clen}`}
+                lable={`Continue Reading - ${clen}`}
                 mylist={mylist}
                 setMylist={setMylist}
               />{" "}

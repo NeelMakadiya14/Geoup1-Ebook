@@ -50,7 +50,7 @@ export default function SearchResult(props) {
             style={{ marginTop: "2%" }}
           >
             {/* <h1 style={{ marginLeft: "15px" }}> Results found : {len} </h1> */}
-            <Grid container spacing={2} style={{ width: "78vw" }}>
+            <Grid container spacing={2} style={{ width: "100vw" }}>
               {data.map((x, i) => (
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                   <Postcard data={x} key={i} />

@@ -7,7 +7,7 @@ import Search from "../components/Search";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
 import Postcard from "../components/Postcard";
-import { Grid, Box } from "@material-ui/core";
+import { Grid, Box, Typography } from "@material-ui/core";
 
 require("dotenv").config();
 
@@ -29,7 +29,7 @@ export default function GenreSearch(props) {
     axios
       .get(
         `${API_URL}/home/genres?` +
-          queryString.stringify({ genre: props.genre })
+        queryString.stringify({ genre: props.genre })
       )
       .then((res) => {
         console.log("get : ", res.data);
@@ -48,9 +48,10 @@ export default function GenreSearch(props) {
       <Search />
       {data ? (
         <div>
+          <Typography variant="h5" color="textSecondary" style={{ marginTop: "1%", marginBottom: "1%" }}>{props.genre}</Typography>
           <Box display="flex" justifyContent="center">
             {/* <h1 style={{ marginLeft: "15px" }}> Results found : {len} </h1> */}
-            <Grid container spacing={2} style={{ width: "78vw" }}>
+            <Grid container spacing={2} style={{ width: "100vw" }}>
               {data.map((x, i) => (
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                   <Postcard data={x} key={i} />

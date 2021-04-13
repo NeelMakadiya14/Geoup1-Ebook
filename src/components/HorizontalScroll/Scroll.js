@@ -42,14 +42,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0.2rem",
     paddingTop: "0.3rem",
   },
-  like_in_guest: {
-    textAlign: "right",
-    fontSize: "medium",
-  },
-  paper: {
-    width: 200,
-    height: 270,
-  },
+
   title: {
     textAlign: "center",
     fontSize: 12,
@@ -74,7 +67,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+const cookies = new Cookies();
+const userCookie = cookies.get("userCookie");
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
+
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const bull = <span className={classes.bullet}>➥</span>;
+  const heart = <span className={classes.heart}>❤</span>;
+
+
   const ClickMe = () => {
     console.log("clicked");
     const obj = {
@@ -122,8 +128,8 @@ const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
         </Typography>
         <Typography className={classes.des} variant="body2" component="p">
           {data.description.length > 230
-            ? props.data.description.slice(0, 230) + "..."
-            : props.data.description}
+            ? data.description.slice(0, 230) + "..."
+            : data.description}
         </Typography>
         <div className={classes.wishlist}>
           <span>
@@ -151,25 +157,13 @@ const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
 const Scroll = (props) => {
   const classes = useStyles();
 
-  const bull = <span className={classes.bullet}>➥</span>;
-  const heart = <span className={classes.heart}>❤</span>;
-
-  //const Genre = props.data.genres;
-
-  const navigate = useNavigate();
-
-  const cookies = new Cookies();
-  const userCookie = cookies.get("userCookie");
-
-  const API_URL = process.env.REACT_APP_BACKEND_URL;
-
   return (
     <div className="root">
       <Box
         fontWeight="fontWeightBold"
         fontSize="h5.fontSize"
         color="textSecondary"
-        style={{ marginLeft: "80px" }}
+        style={{ marginLeft: "30px", marginBottom: "20px" }}
       >
         {props.lable}
         {/* <Typography

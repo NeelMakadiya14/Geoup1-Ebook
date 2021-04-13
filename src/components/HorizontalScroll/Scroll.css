@@ -11,6 +11,10 @@
   margin-right: 2%;
 }
 
+.container::-webkit-scrollbar{
+  display: none;
+}
+
 .item {
   position: relative;
   display: flex;
@@ -19,7 +23,7 @@
 
 .container:focus-within .item,
 .container:hover .item {
-  transform: translateX(-50%);
+ transform: translateX(-50%);
 }
 
 .container:hover .root {
@@ -36,7 +40,7 @@
   transform: scale(1, 1.05);
   margin-top: 27px;
   margin-bottom: 27px;
-  z-index: 4;
+  z-index: 1;
 }
 
 .box {
