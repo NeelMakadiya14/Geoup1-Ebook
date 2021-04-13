@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import CardHeader from "@material-ui/core/CardHeader";
-import "./Styles.css";
-import Button from "@material-ui/core/Button";
+import { Paper, Button, Box } from "@material-ui/core";
 import axios from "axios";
-import queryString from "query-string";
+import "./Scroll.css";
+import Typography from "@material-ui/core/Typography";
 import { CookiesProvider, Cookies, useCookies } from "react-cookie";
-import { Paper } from "@material-ui/core";
 import { useNavigate } from "@reach/router";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,27 +74,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Postcard = (props) => {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>➥</span>;
-  const heart = <span className={classes.heart}>❤</span>;
-
-  //const Genre = props.data.genres;
-
-  const cookies = new Cookies();
-  const userCookie = cookies.get("userCookie");
-  const API_URL = process.env.REACT_APP_BACKEND_URL;
-  console.log("URL : ", API_URL);
-
-  const navigate = useNavigate();
-
-  //const [isAdd, setAdd] = React.useState(false);
-
+const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
   const ClickMe = () => {
     console.log("clicked");
     const obj = {
       email: userCookie.email,
-      docID: props.data.docID,
+      docID: data.docID,
     };
     console.log(obj);
     axios
@@ -112,24 +91,23 @@ const Postcard = (props) => {
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <div
       className="box"
       onClick={() => {
-        navigate(`/view/${props.data.docID}`);
+        navigate(`/view/${data.docID}`);
       }}
     >
       <Paper className="image" elevation={3}>
-        <img src={props.data.imageUrl} />
+        <img src={data.imageUrl} />
       </Paper>
       <Paper className="details">
         <Typography className={classes.title} color="textPrimary">
-          {props.data.title}
+          {data.title}
         </Typography>
         <Typography className={classes.author} color="textSecondary">
           {"- "}
-          {props.data.author.Fname + " " + props.data.author.Lname}
+          {data.author.Fname + " " + data.author.Lname}
         </Typography>
         <Typography
           className={classes.genre}
@@ -138,13 +116,13 @@ const Postcard = (props) => {
           component="p"
         >
           {bull}{" "}
-          {props.data.genres.map((genre) => {
+          {data.genres.map((genre) => {
             return "|" + genre + "|" + " ";
           })}
         </Typography>
         <Typography className={classes.des} variant="body2" component="p">
-          {props.data.description.length > 300
-            ? props.data.description.slice(0, 300) + "..."
+          {data.description.length > 230
+            ? props.data.description.slice(0, 230) + "..."
             : props.data.description}
         </Typography>
         <div className={classes.wishlist}>
@@ -157,12 +135,12 @@ const Postcard = (props) => {
                 variant="contained"
                 disableElevation
               >
-                {props.isAdd == true ? "Remove" : "My List"}
+                {isAdd == true ? "Remove" : "My List"}
               </Button>
             ) : null}
           </span>
           <span className={classes.like}>
-            {heart} {props.data.likes.count}
+            {heart} {data.likes.count}
           </span>
         </div>
       </Paper>
@@ -170,4 +148,54 @@ const Postcard = (props) => {
   );
 };
 
-export default Postcard;
+const Scroll = (props) => {
+  const classes = useStyles();
+
+  const bull = <span className={classes.bullet}>➥</span>;
+  const heart = <span className={classes.heart}>❤</span>;
+
+  //const Genre = props.data.genres;
+
+  const navigate = useNavigate();
+
+  const cookies = new Cookies();
+  const userCookie = cookies.get("userCookie");
+
+  const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+  return (
+    <div className="root">
+      <Box
+        fontWeight="fontWeightBold"
+        fontSize="h5.fontSize"
+        color="textSecondary"
+        style={{ marginLeft: "80px" }}
+      >
+        {props.lable}
+        {/* <Typography
+          variant="h1"
+          color="textSecondary"
+          style={{ fontSize: 25, marginLeft: "80px", marginBottom: 0 }}
+          gutterBottom={false}
+        >
+          {props.lable}
+        </Typography> */}
+      </Box>
+      <div className="container">
+        {props.data.map((x, i) => (
+          <div className="item">
+            <MyPostCard
+              data={x}
+              key={i}
+              isAdd={props.isAdd}
+              mylist={props.mylist}
+              setMylist={props.setMylist}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Scroll;
