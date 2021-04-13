@@ -7,8 +7,7 @@ import Search from "../components/Search";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
 import Postcard from "../components/Postcard";
-import Grid from '@material-ui/core/Grid';
-
+import { Grid, Box } from "@material-ui/core";
 
 require("dotenv").config();
 
@@ -25,7 +24,7 @@ export default function SearchResult(props) {
 
   const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-  const[len,setLen]=useState(0); 
+  const [len, setLen] = useState(0);
 
   useEffect(() => {
     axios
@@ -43,20 +42,26 @@ export default function SearchResult(props) {
       <MyAppBar />
       <Toolbar />
       <Search />
-      {data ? <div>
-        <h1 style={{marginLeft:"15px"}}>Results found : {len} </h1>
-        
-        <Grid container spacing={2}>
-            {data.map((x,i) =>
-              
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Postcard data={x} key={i} style={{height:"20px", width:"20px"}}/>
-              </Grid>
-            )}
-             </Grid>
-          
-      </div>
-      : <Loader />}
+      {data ? (
+        <div>
+          <Box
+            display="flex"
+            justifyContent="center"
+            style={{ marginTop: "2%" }}
+          >
+            {/* <h1 style={{ marginLeft: "15px" }}> Results found : {len} </h1> */}
+            <Grid container spacing={2} style={{ width: "78vw" }}>
+              {data.map((x, i) => (
+                <Grid item xs={12} sm={6} md={3} lg={2}>
+                  <Postcard data={x} key={i} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }

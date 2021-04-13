@@ -18,12 +18,17 @@ import queryString from "query-string";
 //import Hello from './Hello';
 import axios from "axios";
 import jsPDF from "jspdf";
+import html2pdf from "html2pdf.js"
+//import Button from '@material-ui/core/Button';
+//import Parchment from 'parchment'
+//import ImageResize from 'quill-image-resize-module';
 
 export default function Room(props) {
   const roomID = props.roomID;
   const API_URL = process.env.REACT_APP_BACKEND_URL;
   Quill.register("modules/cursors", QuillCursors);
-
+  //const ImageResize = require('quill-image-resize-module').default
+  //Quill.register('modules/imageResize', ImageResize);
   const ydoc = new Y.Doc();
 
   const cookies = new Cookies();
@@ -38,7 +43,7 @@ export default function Room(props) {
     ydoc
   );
   const type = ydoc.getText(`${roomID}`);
-  var Harsh = document.getElementsByClassName("ql-editor");
+  var htmlContent = document.getElementsByClassName("ql-editor");
   useEffect(() => {
     const EditorContainer = document.getElementById("editor");
     var toolbarOptions = [
@@ -59,14 +64,13 @@ export default function Room(props) {
       [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
       ["clean"],
     ];
-
     var editor = new Quill(EditorContainer, {
       modules: {
         cursors: true,
         toolbar: toolbarOptions,
         history: {
           userOnly: true,
-        },
+        }
       },
       placeholder: "Start Writing...",
       theme: "snow", // or 'bubble'
@@ -87,8 +91,11 @@ export default function Room(props) {
 
   const OnSave = async () => {
     console.log(API_URL);
-    var pdf = new jsPDF();
-    pdf.fromHTML(Harsh.item(0), 0, 0, { width: 100 }, function () {
+    // var pdf = new jsPDF();
+    //html2pdf(pdf);
+    var final = htmlContent.item(0);
+    var pdf = html2pdf().from(final);
+    /*pdf.fromHTML(Harsh.item(0), 0, 0, { 'width': 100 }, function () {/*
       var blob = pdf.output("blob");
       const data = new FormData();
       data.append("book", blob);
@@ -107,8 +114,9 @@ export default function Room(props) {
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
 
-      pdf.save("pdf");
-    });
+    pdf.save("pdf");
+  });*/
+    pdf.save("pdf");
   };
 
   return (
@@ -130,6 +138,7 @@ export default function Room(props) {
               <div
                 style={{
                   boxShadow:
+                    // "0 4px 8px 0 rgba(100, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 100, 0, 0.19)",
                     "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)",
                 }}
                 id="editor"
@@ -138,7 +147,9 @@ export default function Room(props) {
           </Grid>
         </Grid>
       </div>
-      <button onClick={OnSave}>Save</button>
+      <div style={{ padding: '15px', display: 'flex', alignItems: "center", justifyContent: "center" }}>
+        <Button variant="contained" color="primary" onClick={OnSave}>Download PDF</Button>
+      </div>
     </div>
   );
 }
