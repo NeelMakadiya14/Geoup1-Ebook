@@ -10,6 +10,8 @@ import { Card, CardMedia, Grid, Divider, Typography } from "@material-ui/core";
 import Postcard from "../../components/Postcard";
 import { LinkOutlined } from "@ant-design/icons";
 import Loader from "../../components/Loader";
+import queryString from "query-string";
+import { CookiesProvider, Cookies, useCookies } from "react-cookie";
 
 import "./profile.css";
 
@@ -18,6 +20,8 @@ import axios from "axios";
 require("dotenv").config();
 
 export default function Profile(props) {
+  const cookies = new Cookies();
+  const userCookie = cookies.get("userCookie");
   const [profile, setProfile] = useState();
   const [published, setPublished] = useState([]);
   const [pending, setPending] = useState([]);
@@ -25,7 +29,25 @@ export default function Profile(props) {
   const API_URL = process.env.REACT_APP_BACKEND_URL;
   const CloudName = process.env.REACT_APP_CLOUD_NAME;
 
+  const [checkList, setCheckList] = useState({});
+  const [render, setRender] = useState(false);
+
   useEffect(() => {
+    if (userCookie !== undefined) {
+      const email = userCookie.email;
+      axios
+        .get(`${API_URL}/mylist?` + queryString.stringify({ email }))
+        .then((res) => {
+          console.log("get : ", res.data);
+          var tempList = {};
+          res.data.forEach((element) => {
+            tempList[element.docID] = true;
+          });
+          console.log(tempList);
+          setCheckList(tempList);
+        })
+        .catch((err) => console.log(err));
+    }
     axios
       .get(`${API_URL}/profile?email=${props.email}`)
       .then((response) => {
@@ -204,8 +226,15 @@ export default function Profile(props) {
               </Typography>
               <Grid container spacing={2}>
                 {pending.map((x, i) => (
-                  <Grid item xs={4}>
-                    <Postcard data={x} key={i} />
+                  <Grid item xs={3}>
+                    <Postcard
+                      data={x}
+                      key={i}
+                      checkList={checkList}
+                      setCheckList={setCheckList}
+                      render={render}
+                      setRender={setRender}
+                    />
                   </Grid>
                 ))}
               </Grid>
@@ -220,8 +249,15 @@ export default function Profile(props) {
               </Typography>
               <Grid container spacing={2}>
                 {published.map((x, i) => (
-                  <Grid item xs={4}>
-                    <Postcard data={x} key={i} />
+                  <Grid item xs={3}>
+                    <Postcard
+                      data={x}
+                      key={i}
+                      checkList={checkList}
+                      setCheckList={setCheckList}
+                      render={render}
+                      setRender={setRender}
+                    />
                   </Grid>
                 ))}
               </Grid>

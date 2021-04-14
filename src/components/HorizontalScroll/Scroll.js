@@ -74,7 +74,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
+//const Genre = props.data.genres;
+
+const cookies = new Cookies();
+const userCookie = cookies.get("userCookie");
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+const MyPostCard = ({
+  data,
+  key,
+  isAdd,
+  mylist,
+  setMylist,
+  checkList,
+  setCheckList,
+  render,
+  setRender,
+}) => {
+  const navigate = useNavigate();
+  const classes = useStyles();
+
+  // console.log(checkList);
+
+  const bull = <span className={classes.bullet}>➥</span>;
+  const heart = <span className={classes.heart}>❤</span>;
+
   const ClickMe = () => {
     console.log("clicked");
     const obj = {
@@ -86,19 +111,42 @@ const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
       .post(`${API_URL}/addtomylist`, obj)
       .then((res) => {
         console.log(res);
+        if (res.data == "added") {
+          // console.log("called : ", res.data);
+          var list = mylist;
+          // console.log(list);
+          list.push(data);
+          // console.log("...", list);
+          var tempList = checkList;
+          tempList[data.docID] = true;
+          setCheckList(tempList);
+          setMylist(list);
+          // console.log("Final : ", mylist);
+          // console.log("list : ", checkList);
+          setRender(!render);
+        } else {
+          var list = mylist.filter((x) => x.docID != data.docID);
+          var tempList = checkList;
+          tempList[data.docID] = undefined;
+          setCheckList(tempList);
+          setMylist(list);
+          // console.log("list : ", checkList);
+          setRender(!render);
+        }
         //  props.isAdd == true ? (setAdd(false)) : (setAdd(true));
         // console.log("Value : ", isAdd);
       })
       .catch((err) => console.log(err));
   };
   return (
-    <div
-      className="box"
-      onClick={() => {
-        navigate(`/view/${data.docID}`);
-      }}
-    >
-      <Paper className="image" elevation={3}>
+    <div className="box">
+      <Paper
+        className="image"
+        elevation={3}
+        onClick={() => {
+          navigate(`/view/${data.docID}`);
+        }}
+      >
         <img src={data.imageUrl} />
       </Paper>
       <Paper className="details">
@@ -122,8 +170,8 @@ const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
         </Typography>
         <Typography className={classes.des} variant="body2" component="p">
           {data.description.length > 230
-            ? props.data.description.slice(0, 230) + "..."
-            : props.data.description}
+            ? data.description.slice(0, 230) + "..."
+            : data.description}
         </Typography>
         <div className={classes.wishlist}>
           <span>
@@ -135,7 +183,7 @@ const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
                 variant="contained"
                 disableElevation
               >
-                {isAdd == true ? "Remove" : "My List"}
+                {checkList[data.docID] ? "Remove" : "Add"}
               </Button>
             ) : null}
           </span>
@@ -149,20 +197,6 @@ const MyPostCard = ({ data, key, isAdd, mylist, setMylist }) => {
 };
 
 const Scroll = (props) => {
-  const classes = useStyles();
-
-  const bull = <span className={classes.bullet}>➥</span>;
-  const heart = <span className={classes.heart}>❤</span>;
-
-  //const Genre = props.data.genres;
-
-  const navigate = useNavigate();
-
-  const cookies = new Cookies();
-  const userCookie = cookies.get("userCookie");
-
-  const API_URL = process.env.REACT_APP_BACKEND_URL;
-
   return (
     <div className="root">
       <Box
@@ -190,6 +224,10 @@ const Scroll = (props) => {
               isAdd={props.isAdd}
               mylist={props.mylist}
               setMylist={props.setMylist}
+              checkList={props.checkList}
+              setCheckList={props.setCheckList}
+              render={props.render}
+              setRender={props.setRender}
             />
           </div>
         ))}
