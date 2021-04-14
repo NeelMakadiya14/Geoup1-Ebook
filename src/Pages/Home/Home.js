@@ -136,8 +136,13 @@ export default function Home(props) {
   const [cr, setCr] = useState([]);
   const [mlen, setMlen] = useState(0);
   const [clen, setClen] = useState(0);
+  const [checkList, setCheckList] = useState({});
+  // const [reRender, setReRender] = useState(true);
 
   const bull = <span className={classes.bullet}>➥</span>;
+
+  // console.log("home : ", mylist);
+  // console.log("home : ", checkList);
 
   useEffect(() => {
     axios
@@ -178,6 +183,12 @@ export default function Home(props) {
           console.log("get : ", res.data);
           setMylist(res.data);
           setMlen(res.data.length);
+          var tempList = {};
+          res.data.forEach((element) => {
+            tempList[element.docID] = true;
+          });
+          console.log(tempList);
+          setCheckList(tempList);
         })
         .catch((err) => console.log(err));
     }
@@ -219,6 +230,10 @@ export default function Home(props) {
                 lable={`Continue Reading : ${clen}`}
                 mylist={mylist}
                 setMylist={setMylist}
+                checkList={checkList}
+                setCheckList={setCheckList}
+                render={render}
+                setRender={setRender}
               />{" "}
             </>
           ) : null}
@@ -230,6 +245,10 @@ export default function Home(props) {
                 lable={`My List - ${mlen}`}
                 mylist={mylist}
                 setMylist={setMylist}
+                checkList={checkList}
+                setCheckList={setCheckList}
+                render={render}
+                setRender={setRender}
               />{" "}
             </>
           ) : null}
@@ -240,6 +259,10 @@ export default function Home(props) {
             lable={"Drama"}
             mylist={mylist}
             setMylist={setMylist}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            render={render}
+            setRender={setRender}
           />
 
           <Scroll
@@ -248,6 +271,10 @@ export default function Home(props) {
             lable={"Thriller"}
             mylist={mylist}
             setMylist={setMylist}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            render={render}
+            setRender={setRender}
           />
 
           <Scroll
@@ -256,6 +283,10 @@ export default function Home(props) {
             lable={"Horror"}
             mylist={mylist}
             setMylist={setMylist}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            render={render}
+            setRender={setRender}
           />
         </div>
       </main>

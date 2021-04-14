@@ -107,20 +107,34 @@ const Postcard = (props) => {
       .post(`${API_URL}/addtomylist`, obj)
       .then((res) => {
         console.log(res);
-        //  props.isAdd == true ? (setAdd(false)) : (setAdd(true));
-        // console.log("Value : ", isAdd);
+        if (res.data == "added") {
+          var tempList = props.checkList;
+          tempList[props.data.docID] = true;
+          props.setCheckList(tempList);
+          props.setRender(!props.render);
+        } else {
+          var tempList = props.checkList;
+          tempList[props.data.docID] = undefined;
+          props.setCheckList(tempList);
+          props.setRender(!props.render);
+        }
       })
       .catch((err) => console.log(err));
   };
 
   return (
-    <div
-      className="box"
-      onClick={() => {
-        navigate(`/view/${props.data.docID}`);
-      }}
-    >
-      <Paper className="image" elevation={3}>
+    <div className="box">
+      <Paper
+        className="image"
+        elevation={3}
+        onClick={() => {
+          if (props.data.state == "Published") {
+            navigate(`/view/${props.data.docID}`);
+          } else {
+            navigate(`/edit/${props.data.docID}`);
+          }
+        }}
+      >
         <img src={props.data.imageUrl} />
       </Paper>
       <Paper className="details">
@@ -143,28 +157,30 @@ const Postcard = (props) => {
           })}
         </Typography>
         <Typography className={classes.des} variant="body2" component="p">
-          {props.data.description.length > 300
-            ? props.data.description.slice(0, 300) + "..."
+          {props.data.description.length > 235
+            ? props.data.description.slice(0, 235) + "..."
             : props.data.description}
         </Typography>
-        <div className={classes.wishlist}>
-          <span>
-            {userCookie !== undefined ? (
-              <Button
-                onClick={ClickMe}
-                className={classes.button}
-                color="primary"
-                variant="contained"
-                disableElevation
-              >
-                {props.isAdd == true ? "Remove" : "My List"}
-              </Button>
-            ) : null}
-          </span>
-          <span className={classes.like}>
-            {heart} {props.data.likes.count}
-          </span>
-        </div>
+        {props.data.state == "Published" ? (
+          <div className={classes.wishlist}>
+            <span>
+              {userCookie !== undefined ? (
+                <Button
+                  onClick={ClickMe}
+                  className={classes.button}
+                  color="primary"
+                  variant="contained"
+                  disableElevation
+                >
+                  {props.checkList[props.data.docID] ? "Remove" : "Add"}
+                </Button>
+              ) : null}
+            </span>
+            <span className={classes.like}>
+              {heart} {props.data.likes.count}
+            </span>
+          </div>
+        ) : null}
       </Paper>
     </div>
   );

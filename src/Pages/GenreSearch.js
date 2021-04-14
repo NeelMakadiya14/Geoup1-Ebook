@@ -8,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
 import Postcard from "../components/Postcard";
 import { Grid, Box } from "@material-ui/core";
+import { CookiesProvider, Cookies, useCookies } from "react-cookie";
 
 require("dotenv").config();
 
@@ -19,13 +20,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GenreSearch(props) {
+  const cookies = new Cookies();
+  const userCookie = cookies.get("userCookie");
   const classes = useStyles();
   const [data, setData] = useState([]);
   const API_URL = process.env.REACT_APP_BACKEND_URL;
 
   const [len, setLen] = useState(0);
 
+  const [checkList, setCheckList] = useState({});
+  const [render, setRender] = useState(false);
+
   useEffect(() => {
+    if (userCookie !== undefined) {
+      const email = userCookie.email;
+      axios
+        .get(`${API_URL}/mylist?` + queryString.stringify({ email }))
+        .then((res) => {
+          console.log("get : ", res.data);
+          var tempList = {};
+          res.data.forEach((element) => {
+            tempList[element.docID] = true;
+          });
+          console.log(tempList);
+          setCheckList(tempList);
+        })
+        .catch((err) => console.log(err));
+    }
     axios
       .get(
         `${API_URL}/home/genres?` +
@@ -53,7 +74,14 @@ export default function GenreSearch(props) {
             <Grid container spacing={2} style={{ width: "78vw" }}>
               {data.map((x, i) => (
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                  <Postcard data={x} key={i} />
+                  <Postcard
+                    data={x}
+                    key={i}
+                    checkList={checkList}
+                    setCheckList={setCheckList}
+                    render={render}
+                    setRender={setRender}
+                  />
                 </Grid>
               ))}
             </Grid>
