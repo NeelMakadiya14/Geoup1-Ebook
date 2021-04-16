@@ -25,6 +25,10 @@ git pull upstream main
 ```
 
 - You need Node & Yarn to start the development environment. Download them here - [Node](https://nodejs.org/), [Yarn](https://yarnpkg.com).
+- NOTE : Plaese update your npm to the latest version to avoid package-lock.json merge conflict.
+```bash
+npm install -g npm@latest
+```
 
 - You can setup a `.env` file in the root of the repository. The file should look like this:
 
@@ -49,19 +53,29 @@ npm build
 ```
 
 ## Contribution
--Create new branch and name it on the issue/feature you are working.
+- Create new branch and name it on the issue/feature you are working.
 
-- to create new branch
+- Create new branch of your ID
 ```bash
-git checkout -b <branch-name>
+git checkout -b <Your_ID>
 ```
 - to shift from one branch to another
 ```bash
 git cheackout <branch-name>
 ```
 
-- After completing create PR on that branch
+- After completing commit that changes and push it on your branch
 ```bash
-git push origin <branch-name>
+git add .
+git commit -m "Your Commit message"
+git push upstream <Your_ID>
 ```
-- Then from your local repo you can create pull request to upsream(central repository) 
+- Then create pull request from <Your_ID> branch to main branch and add me as reviewer
+
+
+- To push commit on your local repository
+```bash
+git add .
+git commit -m "Your Commit message"
+git push origin <Your_ID>
+```

@@ -20,15 +20,20 @@ import Postcard from "../../components/Postcard";
 import Search from "../../components/Search";
 // import SecondaryBar from "../../components/SecondaryBar";
 import axios from "axios";
+import Scroll from "../../components/HorizontalScroll/Scroll";
+import queryString from "query-string";
+import Loader from "../../components/Loader";
+import "../../components/Styles.css";
+import { Hidden } from "@material-ui/core";
 require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    width: "100%",
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
   },
   paper: {
     position: "absolute",
@@ -38,24 +43,12 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  bullet: {
+    display: "inline-block",
+    margin: "0 20px",
+    transform: "scale(1.5)",
+  },
 }));
-
-const obj = {
-  title: "Stranger in a Strange Land",
-  author: {
-    Fname: "Robert",
-    Lname: "Heinlein",
-  },
-  genres: ["Comedy", "Drama"],
-  likes: {
-    count: "150",
-  },
-  docID: "req.body.docID",
-  imageUrl:
-    "https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2015/9/2/1441205095847/2eab3067-c0d9-44d7-abcd-d21af5b4b245-bestSizeAvailable.jpeg?width=300&quality=45&auto=format&fit=max&dpr=2&s=7e20b9ee90aaa1bbf1558190049a0335",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.",
-};
 
 export default function Home(props) {
   const cookies = new Cookies();
@@ -136,6 +129,83 @@ export default function Home(props) {
     </div>
   );
 
+  const [drama, setDrama] = useState([]);
+  const [thriller, setThriller] = useState([]);
+  const [horror, setHorror] = useState([]);
+  const [mylist, setMylist] = useState([]);
+  const [cr, setCr] = useState([]);
+  const [mlen, setMlen] = useState(0);
+  const [clen, setClen] = useState(0);
+  const [checkList, setCheckList] = useState({});
+  // const [reRender, setReRender] = useState(true);
+
+  const bull = <span className={classes.bullet}>➥</span>;
+
+  // console.log("home : ", mylist);
+  // console.log("home : ", checkList);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${API_URL}/home/genres?` + queryString.stringify({ genre: "Drama" })
+      )
+      .then((res) => {
+        console.log("get : ", res.data);
+        setDrama(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(
+        `${API_URL}/home/genres?` + queryString.stringify({ genre: "Thriler" })
+      )
+      .then((res) => {
+        console.log("get : ", res.data);
+        setThriller(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get(
+        `${API_URL}/home/genres?` + queryString.stringify({ genre: "Horror" })
+      )
+      .then((res) => {
+        console.log("get : ", res.data);
+        setHorror(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    if (userCookie !== undefined) {
+      const email = userCookie.email;
+      axios
+        .get(`${API_URL}/mylist?` + queryString.stringify({ email }))
+        .then((res) => {
+          console.log("get : ", res.data);
+          setMylist(res.data);
+          setMlen(res.data.length);
+          var tempList = {};
+          res.data.forEach((element) => {
+            tempList[element.docID] = true;
+          });
+          console.log(tempList);
+          setCheckList(tempList);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (userCookie !== undefined) {
+      const email = userCookie.email;
+      axios
+        .get(`${API_URL}/cr?` + queryString.stringify({ email }))
+        .then((res) => {
+          console.log("get : ", res.data);
+          setCr(res.data);
+          setClen(res.data.length);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
   return (
     <div className={classes.root}>
       <MyAppBar render={render} setRender={setRender} />
@@ -150,14 +220,75 @@ export default function Home(props) {
       </Modal>
       <main className={classes.content}>
         <Toolbar />
-        {/* <h1>
-          {userCookie === undefined
-            ? "Hello Guest"
-            : "Hello " + userCookie.name}
-        </h1> */}
-
         <Search />
-        <Postcard data={obj} />
+        <div style={{ marginTop: "2%" }}>
+          {userCookie == undefined ? null : clen > 0 ? (
+            <>
+              <Scroll
+                data={cr}
+                isAdd={false}
+                lable={`Continue Reading : ${clen}`}
+                mylist={mylist}
+                setMylist={setMylist}
+                checkList={checkList}
+                setCheckList={setCheckList}
+                render={render}
+                setRender={setRender}
+              />{" "}
+            </>
+          ) : null}
+          {userCookie == undefined ? null : mlen > 0 ? (
+            <>
+              <Scroll
+                data={mylist}
+                isAdd={true}
+                lable={`My List - ${mlen}`}
+                mylist={mylist}
+                setMylist={setMylist}
+                checkList={checkList}
+                setCheckList={setCheckList}
+                render={render}
+                setRender={setRender}
+              />{" "}
+            </>
+          ) : null}
+
+          <Scroll
+            data={drama}
+            isAdd={false}
+            lable={"Drama"}
+            mylist={mylist}
+            setMylist={setMylist}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            render={render}
+            setRender={setRender}
+          />
+
+          <Scroll
+            data={thriller}
+            isAdd={false}
+            lable={"Thriller"}
+            mylist={mylist}
+            setMylist={setMylist}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            render={render}
+            setRender={setRender}
+          />
+
+          <Scroll
+            data={horror}
+            isAdd={false}
+            lable={"Horror"}
+            mylist={mylist}
+            setMylist={setMylist}
+            checkList={checkList}
+            setCheckList={setCheckList}
+            render={render}
+            setRender={setRender}
+          />
+        </div>
       </main>
     </div>
   );
