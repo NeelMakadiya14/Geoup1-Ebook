@@ -7,6 +7,7 @@ import CreateNewBook from "./Pages/CreateNewBook";
 import Reading from "./Pages/Reading/Reading";
 import SearchResult from "./Pages/SearchResult";
 import GenreSearch from "./Pages/GenreSearch";
+import Admin from "./Pages/Admin/Admin";
 
 export default function Routes(props) {
   return (
@@ -19,6 +20,7 @@ export default function Routes(props) {
       <Reading path="/view/:bookID" />
       <GenreSearch path="/genres/:genre" />
       <SearchResult path="/search/:value" />
+      <Admin path="/admin" />
     </Router>
   );
 }
