@@ -371,16 +371,17 @@ export default function MyAppBar(props) {
             )}
           />
 
-        <div style={{marginLeft:"915px"}}>
+        
+
+          <div style={{ marginLeft: "auto", marginRight: "20px" }}>
+          
           <DarkModeSwitch
-            style={{height:"35px", paddingTop:"5px"}}
+            style={{height:"30px", marginTop:"10px",marginRight:"20px"}}
             checked={isDark}
             onChange={toggleDarkMode}
             size={35}
           />
-            </div>
-
-          <div style={{ marginLeft: "auto", marginRight: "20px" }}>
+            
             {userCookie == undefined ? null : isAuthor ?
               (unfinishedBook ?
                 (
