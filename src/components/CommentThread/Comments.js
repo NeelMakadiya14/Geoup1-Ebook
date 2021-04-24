@@ -1,87 +1,115 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import './style.css'
+//import { BrowserRouter as Router } from 'react-router-dom'
 //import Header from './components/Header'
 import Tasks from './Tasks'
 import Comment from './Comment'
 //import About from './components/About'
+import './App.css'
+import './comment.css'
+import './index.css'
 import { Cookies } from 'react-cookie'
-const cookies = new Cookies();
-const email = cookies.get('userCookie').Email;
-const googleToken = cookies.get('userCookie').Token;
-let name, userId, username;
+import { WindowsFilled } from '@ant-design/icons'
+//  import axios from "axios";
+//const email = cookies.get('userCookie').Email;
+//const googleToken = cookies.get('userCookie').Token;
+// let name, userId, username;
 
-export default function Comments(props) {
-  //const [showAddTask, setShowAddTask] = useState(true)
-  const [tasks, setTasks] = useState([])
+// name = cookies.get('userDetails').name;
+// userId = cookies.get('userDetails')._id;
+// username = cookies.get('userDetails').username;
+
+
+
+const axios = require('axios');
+
+export default function App(props) {
+  //console.log("Hello jay", props.bookID);
+  const cookies = new Cookies();
+  const usercookie = cookies.get('userCookie');
+  const API_URL = process.env.REACT_APP_BACKEND_URL;
+  const [tasks, setTasks] = useState([]);
+  const [temp, setTemp] = useState(false);
+  const [myid, setmyid] = useState(0);
 
   useEffect(() => {
-    const getTasks = async () => {
-      const tasksFromServer = await fetchTasks()
-      setTasks(tasksFromServer)
-    }
-    if (cookies.get('userDetails')) {
-      name = cookies.get('userDetails').name;
-      //userId = cookies.get('userDetails')._id;
-      username = cookies.get('userDetails').username;
-    }
-    getTasks()
-  }, [])
 
-  // Fetch Tasks
-  const fetchTasks = async () => {
-    const res = await fetch('https://e-book-backend.herokuapp.com/addcomment')
-    const data = await res.json()
+    //console.log("JAY R SHAH");
+    console.log(myid);
 
-    return data
-  }
+    const fetchTasks = async () => {
+      const res = await fetch(`${API_URL}/getcomment?docID=${props.bookID}`, {
+        method: 'GET'
+      })
+      const data = await res.json()
+      console.log("from fetch", data);
+      setTasks(data)
+      return data
+    }
+
+    fetchTasks();
+
+    if (usercookie !== undefined) { setTemp(true); }
+
+    //console.log("myid", myid);
+  }, [myid])
+
 
   // Add Task
   const addTask = async (task) => {
-    const res = await fetch('https://e-book-backend.herokuapp.com/addcomment', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(task),
-    })
+    console.log(task);
 
-    const data = await res.json()
-
-    setTasks([...tasks, data])
-
+    //setTasks(tasks => [...tasks, task]);
+    console.log("task Added from addtask", tasks);
+    const temp = axios
+      .post(`${API_URL}/addcomment?docID=${props.bookID}`, {
+        comment: task.comment,
+        Gname: task.Gname,
+        GID: task.GID,
+        docID: task.docID,
+        ...tasks
+      })
+      .then((res) => {
+        console.log(res, "Form Jay");
+        const data1 = res.data;
+        //setTasks(data1);
+        console.log(data1.data, "find some data");
+        console.log(tasks.comment, "From Jay1");
+        console.log(tasks.length, "Length");
+        if (myid === 10) {
+          setmyid(0);
+        }
+        else {
+          setmyid((myid + 1));
+        }
+        return res.data;
+      })
+      .catch((err) => {
+        console.error('There was an error!', err);
+      })
+    const t1 = temp.data;
+    console.log(t1, "Jay here");
+    return temp;
   }
 
-  // Delete Task
-  /*const deleteTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: 'DELETE',
-    })
-    //We should control the response status to decide if we will change the state or not.
-    res.status === 200
-      ? setTasks(tasks.filter((task) => task.id !== id))
-      : alert('Error Deleting This Task')
-  }*/
-
-
-
   return (
-    <Router>
-      <div className='container'>
-        <h1>Comments</h1>
-
+    <div>
+      {temp &&
         <>
-          <Comment onAdd={addTask} name={name} username={username} props={props} />
-          {tasks.length > 0 ? (
-            <Tasks
-              tasks={tasks}
-            />
-          ) : (
-            'No Comments'
-          )}
+          <div className='container'>
+            <h1>Comments</h1>
+            <Comment onAdd={addTask} usercookie={usercookie} props={props} />
+            {tasks.length > 0 ? (
+              <Tasks
+                tasks={tasks}
+              />
+            ) : (
+              'No Comments'
+            )}
+          </div>
         </>
-
-      </div>
-    </Router>
+      }
+    </div>
   )
 }
+
+// export default App
