@@ -1,10 +1,10 @@
 const Task = ({ task }) => {
-    return (
-        <div>
-            <h3>{task.name}{' '}</h3>
-            <p> {task.comm}</p>
-        </div>
-    )
+  return (
+    <div className="second">
+      <h3>{task.Gname}</h3>
+      <p> {task.comment}{' '}<span className="third">{task.date}</span></p>
+    </div>
+  )
 }
 
 export default Task
