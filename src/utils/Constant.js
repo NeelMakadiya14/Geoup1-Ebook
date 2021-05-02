@@ -4,7 +4,7 @@ export const genres = [
   "Mystery",
   "Romance",
   "Short-Story",
-  "Humor",
+  "Sci-fi",
   "Thriller",
   "Drama",
   "Auto-Biography",

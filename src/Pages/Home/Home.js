@@ -157,7 +157,7 @@ export default function Home(props) {
 
     axios
       .get(
-        `${API_URL}/home/genres?` + queryString.stringify({ genre: "Thriler" })
+        `${API_URL}/home/genres?` + queryString.stringify({ genre: "Thriller" })
       )
       .then((res) => {
         console.log("get : ", res.data);
@@ -242,7 +242,7 @@ export default function Home(props) {
               <Scroll
                 data={mylist}
                 isAdd={true}
-                lable={`My List - ${mlen}`}
+                lable={`My List`}
                 mylist={mylist}
                 setMylist={setMylist}
                 checkList={checkList}
