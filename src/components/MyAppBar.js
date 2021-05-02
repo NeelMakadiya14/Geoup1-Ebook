@@ -27,6 +27,8 @@ import { useNavigate } from "@reach/router";
 import { StayPrimaryLandscape } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import { DarkModeSwitch } from 'react-toggle-dark-mode';
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -369,7 +371,17 @@ export default function MyAppBar(props) {
             )}
           />
 
+        
+
           <div style={{ marginLeft: "auto", marginRight: "20px" }}>
+          
+          <DarkModeSwitch
+            style={{height:"30px", marginTop:"10px",marginRight:"20px"}}
+            checked={isDark}
+            onChange={toggleDarkMode}
+            size={35}
+          />
+            
             {userCookie == undefined ? null : isAuthor ?
               (unfinishedBook ?
                 (
