@@ -26,6 +26,9 @@ body {
   margin-bottom: 20px;
 }
 
+input.add{
+  width:350px;
+}
 .btn {
   display: inline-block;
   background: #000;
@@ -37,7 +40,7 @@ body {
   cursor: pointer;
   text-decoration: none;
   font-size: 15px;
-  font-family: inherit;
+  font-family: inherit; 
 }
 
 .btn:focus {
@@ -50,7 +53,7 @@ body {
 
 .btn-block {
   display: block;
-  width: 100%;
+  width: 350px;
 }
 
 .task {
@@ -71,11 +74,14 @@ body {
 }
 
 .add-form {
-  margin-bottom: 40px;
+  position: absolute;
+  margin-top: 40px;
+  width : 200px
 }
 
 .form-control {
   margin: 20px 0;
+  width: 350px;
 }
 
 .form-control label {
@@ -111,10 +117,12 @@ footer {
 }
 
 .First{
-  height: 200px;
+  height: 250px;
   border: 1px solid black;
   overflow-y: scroll;
   padding-left: 10px ;
+  margin-left: 25%;
+  width : 60%
 }
 .second{
   font-size: large;
