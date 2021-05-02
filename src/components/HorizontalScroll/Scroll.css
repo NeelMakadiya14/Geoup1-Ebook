@@ -3,7 +3,7 @@
   margin-top: 2%;
 }
 
-.container {
+.container1 {
   display: flex;
   overflow-x: scroll;
   scrollbar-width: none;
@@ -17,12 +17,12 @@
   transition: transform 500ms;
 }
 
-.container:focus-within .item,
-.container:hover .item {
+.container1:focus-within .item,
+.container1:hover .item {
   transform: translateX(-50%);
 }
 
-.container:hover .root {
+.container1:hover .root {
   margin-top: 0;
 }
 
@@ -31,8 +31,8 @@
   transform: translateX(50%);
 }
 
-.container .item:focus,
-.container .item:hover {
+.container1 .item:focus,
+.container1 .item:hover {
   transform: scale(1, 1.05);
   margin-top: 27px;
   margin-bottom: 27px;

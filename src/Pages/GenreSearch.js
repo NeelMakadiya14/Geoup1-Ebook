@@ -69,9 +69,13 @@ export default function GenreSearch(props) {
       <Search />
       {data ? (
         <div>
-          <Box display="flex" justifyContent="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            style={{ marginTop: "3%" }}
+          >
             {/* <h1 style={{ marginLeft: "15px" }}> Results found : {len} </h1> */}
-            <Grid container spacing={2} style={{ width: "78vw" }}>
+            <Grid container spacing={2} style={{ width: "80vw" }}>
               {data.map((x, i) => (
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                   <Postcard

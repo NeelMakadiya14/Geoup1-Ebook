@@ -5,26 +5,25 @@ red: #FC3F00;
 */
 
 body {
-  font-family: 'PT Sans', sans-serif;
-  padding: 2rem;
+  font-family: "PT Sans", sans-serif;
 }
 button {
   border: none;
   border-radius: 0.25rem;
   font-size: 0.75rem;
   font-weight: bold;
-  padding: 0.75em; 
+  padding: 0.75em;
   display: inline-block;
   text-decoration: none;
 }
-  
-  button:hover {
-    cursor: pointer;
-  }
-  button:focus {
-    text-decoration: none;
-    outline: none;
-  }
+
+button:hover {
+  cursor: pointer;
+}
+button:focus {
+  text-decoration: none;
+  outline: none;
+}
 
 .comment-box {
   max-width: 37.5rem;
@@ -37,37 +36,34 @@ button {
   background-color: #fff;
   border-radius: 0.25rem;
   margin-bottom: 2rem;
-  padding: 1rem;  
+  padding: 1rem;
 }
 .comment-form-fields {
   margin-bottom: 0.25rem;
 }
-.comment-form-fields input, textarea {
-    border: none;
-    border-bottom: 1px solid ;
-    font-size: 0.85rem;
-    padding: 0.25rem 0;
-    width: 99%;
-    
-  }
-
-  .comment-form-fields:focus {
-    border-bottom-color: #00BDFC;
-    outline: none;
-  }
-  textarea {
-    font-style: italic;
-  }
-
-.comment-form-actions {
-  
+.comment-form-fields input,
+textarea {
+  border: none;
+  border-bottom: 1px solid;
+  font-size: 0.85rem;
+  padding: 0.25rem 0;
+  width: 99%;
 }
+
+.comment-form-fields:focus {
+  border-bottom-color: #00bdfc;
+  outline: none;
+}
+textarea {
+  font-style: italic;
+}
+
 .comment-count {
   color: #404040;
 }
 #comment-reveal {
   float: right;
-  background-color: #00BDFC;
+  background-color: #00bdfc;
   color: #fff;
 }
 .comment {
@@ -84,9 +80,8 @@ button {
   padding: 0.2rem 0;
   color: #404040;
   text-decoration: none;
-  
 }
 .comment-footer-delete:hover {
-    color: #00BDFC;
-    font-weight: bold;
-  }
+  color: #00bdfc;
+  font-weight: bold;
+}

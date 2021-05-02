@@ -215,7 +215,7 @@ const Scroll = (props) => {
           {props.lable}
         </Typography> */}
       </Box>
-      <div className="container">
+      <div className="container1">
         {props.data.map((x, i) => (
           <div className="item">
             <MyPostCard

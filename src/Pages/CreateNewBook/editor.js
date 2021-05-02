@@ -17,8 +17,9 @@ import { renderToString } from "react-dom/server";
 import queryString from "query-string";
 //import Hello from './Hello';
 import axios from "axios";
+
 import jsPDF from "jspdf";
-import html2pdf from "html2pdf.js"
+import html2pdf from "html2pdf.js";
 //import Button from '@material-ui/core/Button';
 //import Parchment from 'parchment'
 //import ImageResize from 'quill-image-resize-module';
@@ -70,7 +71,7 @@ export default function Room(props) {
         toolbar: toolbarOptions,
         history: {
           userOnly: true,
-        }
+        },
       },
       placeholder: "Start Writing...",
       theme: "snow", // or 'bubble'
@@ -92,31 +93,52 @@ export default function Room(props) {
   const OnSave = async () => {
     console.log(API_URL);
     // var pdf = new jsPDF();
-    //html2pdf(pdf);
+    // html2pdf(pdf);
     var final = htmlContent.item(0);
-    var pdf = html2pdf().from(final);
-    /*pdf.fromHTML(Harsh.item(0), 0, 0, { 'width': 100 }, function () {/*
-      var blob = pdf.output("blob");
-      const data = new FormData();
-      data.append("book", blob);
+    // var pdf = html2pdf().from(final);
+    html2pdf()
+      .from(final)
+      .outputPdf("blob")
+      .then((result) => {
+        var data = new FormData();
+        data.append("book", result);
 
-      var requestOptions = {
-        method: "POST",
-        body: data,
-        redirect: "follow",
-      };
+        var requestOptions = {
+          method: "POST",
+          body: data,
+          redirect: "follow",
+        };
 
-      fetch(
-        `${API_URL}/uploadbook?` + queryString.stringify({ docID: roomID }),
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
+        fetch(
+          `${API_URL}/uploadbook?` + queryString.stringify({ docID: roomID }),
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+      });
 
-    pdf.save("pdf");
-  });*/
-    pdf.save("pdf");
+    // pdf.fromHTML(htmlContent.item(0), 0, 0, { width: 100 }, function () {
+    //   var blob = pdf.output("blob");
+    //   var data = new FormData();
+    //   data.append("book", blob);
+
+    //   var requestOptions = {
+    //     method: "POST",
+    //     body: data,
+    //     redirect: "follow",
+    //   };
+
+    //   fetch(
+    //     `http://localhost:5001/uploadbook?` +
+    //       queryString.stringify({ docID: roomID }),
+    //     requestOptions
+    //   )
+    //     .then((response) => response.text())
+    //     .then((result) => console.log(result))
+    //     .catch((error) => console.log("error", error));
+    // });
+    // pdf.save("pdf");
   };
 
   return (
@@ -147,8 +169,17 @@ export default function Room(props) {
           </Grid>
         </Grid>
       </div>
-      <div style={{ padding: '15px', display: 'flex', alignItems: "center", justifyContent: "center" }}>
-        <Button variant="contained" color="primary" onClick={OnSave}>Download PDF</Button>
+      <div
+        style={{
+          padding: "15px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="contained" color="primary" onClick={OnSave}>
+          Submit
+        </Button>
       </div>
     </div>
   );
