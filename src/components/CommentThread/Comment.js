@@ -20,10 +20,9 @@ const AddTask = ({ onAdd, usercookie, props }) => {
   return (
     <form className='add-form' onSubmit={onSubmit}>
       <div className='form-control'>
-      </div>
-      <div className='form-control'>
         <label>Comments</label>
         <input
+          className='add'
           type='text'
           placeholder='Add Comment'
           value={comm}
