@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { v1 as uuid } from "uuid";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import React, { useEffect } from "react";
+import { Cookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import * as Y from "yjs";
@@ -10,19 +9,9 @@ import Quill from "quill";
 import QuillCursors from "quill-cursors";
 import MyAppBar from "../../components/MyAppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { MoneyOffRounded } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
-import { render } from "react-dom";
-import { renderToString } from "react-dom/server";
 import queryString from "query-string";
-//import Hello from './Hello';
-import axios from "axios";
-
-import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js";
-//import Button from '@material-ui/core/Button';
-//import Parchment from 'parchment'
-//import ImageResize from 'quill-image-resize-module';
 
 export default function Room(props) {
   const roomID = props.roomID;
@@ -35,8 +24,7 @@ export default function Room(props) {
   const cookies = new Cookies();
   const userCookie = cookies.get("userCookie");
 
-  const username = userCookie.name;
-  const email = userCookie.email;
+  let username = userCookie.name;
 
   const provider = new WebsocketProvider(
     "wss://demos.yjs.dev",

@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
-import SwitchUI from "@material-ui/core/Switch";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import MyAppBar from "../../components/MyAppBar";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { Button, Box } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import Modal from "@material-ui/core/Modal";
-import Postcard from "../../components/Postcard";
 import Search from "../../components/Search";
-// import SecondaryBar from "../../components/SecondaryBar";
 import axios from "axios";
 import Scroll from "../../components/HorizontalScroll/Scroll";
 import queryString from "query-string";
-import Loader from "../../components/Loader";
 import "../../components/Styles.css";
-import { Hidden } from "@material-ui/core";
+
 require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
@@ -151,8 +138,6 @@ export default function Home(props) {
   const [clen, setClen] = useState(0);
   const [checkList, setCheckList] = useState({});
   // const [reRender, setReRender] = useState(true);
-
-  const bull = <span className={classes.bullet}>➥</span>;
 
   // console.log("home : ", mylist);
   // console.log("home : ", checkList);

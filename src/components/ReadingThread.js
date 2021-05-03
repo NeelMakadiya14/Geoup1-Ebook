@@ -1,37 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import CardHeader from "@material-ui/core/CardHeader";
 import "./Styles.css";
 import { Button, Box } from "@material-ui/core";
 
 require("dotenv").config();
 
 export default function ReadingThread(props) {
-  const useStyles = makeStyles((theme) => ({
-    // root: {
-    //   borderRadius: "3px",
-    // },
-
-    mainhead: {
-      width: "fitContent",
-      margin: "auto",
-    },
-
-    main: {
-      display: "inlineBlock",
-      marginTop: "10px",
-      border: "2px solid rgb(0, 102, 255)",
-      borderRadius: "5px",
-    },
-  }));
-
-  const classes = useStyles();
-
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 

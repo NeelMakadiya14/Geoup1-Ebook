@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import CardHeader from "@material-ui/core/CardHeader";
 import "./Styles.css";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import queryString from "query-string";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import { Paper } from "@material-ui/core";
 import { useNavigate } from "@reach/router";
 
@@ -108,12 +103,12 @@ const Postcard = (props) => {
       .then((res) => {
         console.log(res);
         if (res.data == "added") {
-          var tempList = props.checkList;
+          let tempList = props.checkList;
           tempList[props.data.docID] = true;
           props.setCheckList(tempList);
           props.setRender(!props.render);
         } else {
-          var tempList = props.checkList;
+          let tempList = props.checkList;
           tempList[props.data.docID] = undefined;
           props.setCheckList(tempList);
           props.setRender(!props.render);

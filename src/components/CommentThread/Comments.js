@@ -8,15 +8,6 @@ import "./appstyle.css";
 import "./comment.css";
 import "./indexstyle.css";
 import { Cookies } from "react-cookie";
-import { WindowsFilled } from "@ant-design/icons";
-//  import axios from "axios";
-//const email = cookies.get('userCookie').Email;
-//const googleToken = cookies.get('userCookie').Token;
-// let name, userId, username;
-
-// name = cookies.get('userDetails').name;
-// userId = cookies.get('userDetails')._id;
-// username = cookies.get('userDetails').username;
 
 const axios = require("axios");
 
