@@ -13,7 +13,7 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import MyAppBar from "../../components/MyAppBar";
 import { CookiesProvider, Cookies, useCookies } from "react-cookie";
-import Button from "@material-ui/core/Button";
+import { Button, Box } from "@material-ui/core";
 import GoogleLogin from "react-google-login";
 import Modal from "@material-ui/core/Modal";
 import Postcard from "../../components/Postcard";
@@ -86,6 +86,7 @@ export default function Home(props) {
       });
     setUser(true);
     setRender(!render);
+    window.location.reload();
   };
 
   const fail = (res) => {
@@ -115,17 +116,29 @@ export default function Home(props) {
   console.log(client_id);
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <Button variant="contained" color="primary" onClick={() => setUser(true)}>
-        Coninue as Guest
-      </Button>
-      <h2>Or</h2>
-      <GoogleLogin
-        clientId={client_id}
-        onSuccess={responseGoogle}
-        onFailure={fail}
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        m={1}
+        p={1}
       >
-        <strong>Sign in with Google</strong>
-      </GoogleLogin>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setUser(true)}
+          style={{ marginBottom: "9%" }}
+        >
+          Coninue as Guest
+        </Button>
+        <GoogleLogin
+          clientId={client_id}
+          onSuccess={responseGoogle}
+          onFailure={fail}
+        >
+          <strong>Sign in with Google</strong>
+        </GoogleLogin>
+      </Box>
     </div>
   );
 
