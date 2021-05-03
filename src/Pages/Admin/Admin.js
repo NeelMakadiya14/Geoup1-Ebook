@@ -6,7 +6,6 @@ import axios from "axios";
 import Loader from "../../components/Loader";
 import { Grid, Box } from "@material-ui/core";
 import PostcardAdmin from "../../components/PostcardAdmin";
-import queryString from "query-string";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -138,6 +137,7 @@ export default function Admin() {
             <Grid container spacing={2} style={{ width: "78vw" }}>
               {data.map((x, i) => (
                 <Grid
+                  key={i}
                   item
                   xs={12}
                   sm={6}

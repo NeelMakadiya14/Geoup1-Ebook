@@ -1,20 +1,13 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { Formik } from "formik";
 import {
   Box,
-  Card,
-  CardContent,
-  CardMedia,
   Typography,
-  Divider,
   Button,
   TextField,
   FormControl,
 } from "@material-ui/core";
-import { Directions, ErrorSharp } from "@material-ui/icons";
 
 export default function PersonalDetails(props) {
   const { data, setData, next } = props;
@@ -41,7 +34,7 @@ export default function PersonalDetails(props) {
         validate={(values) => {
           const errors = {};
           if (
-            !typeof values.mobile === "number" &&
+            typeof values.mobile !== "number" &&
             values.mobile &&
             (values.mobile.length !== 10 ||
               isNaN(values.mobile) ||
