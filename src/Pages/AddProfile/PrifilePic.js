@@ -1,16 +1,5 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Divider,
-  Button,
-  TextField,
-  FormControl,
-  Grid,
-} from "@material-ui/core";
+import React from "react";
+import { Box, Card, CardMedia, Typography, Button } from "@material-ui/core";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
 export default function ProfilePic(props) {

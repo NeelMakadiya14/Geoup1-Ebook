@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
-import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import PersonalDetails from "./PersonalDetails";
 import Acad from "./Acad";
@@ -17,9 +13,8 @@ import MyAppBar from "../../components/MyAppBar";
 import { useNavigate } from "@reach/router";
 import axios from "axios";
 import queryString from "query-string";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import { Box } from "@material-ui/core";
-//import { useHistory } from "react-router-dom";
 
 require("dotenv").config();
 

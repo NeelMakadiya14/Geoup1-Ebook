@@ -8,7 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
 import Postcard from "../components/Postcard";
 import { Grid, Box } from "@material-ui/core";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 require("dotenv").config();
 
@@ -73,7 +73,7 @@ export default function SearchResult(props) {
             {/* <h1 style={{ marginLeft: "15px" }}> Results found : {len} </h1> */}
             <Grid container spacing={2} style={{ width: "80vw" }}>
               {data.map((x, i) => (
-                <Grid item xs={12} sm={6} md={3} lg={2}>
+                <Grid key={i} item xs={12} sm={6} md={3} lg={2}>
                   <Postcard
                     data={x}
                     key={i}

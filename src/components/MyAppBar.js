@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState, Fragment } from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import SwitchUI from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { CustomThemeContext } from "./CustomThemeProvider";
 import { Link } from "@reach/router";
 import { v1 as uuid } from "uuid";
@@ -12,22 +9,20 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
 import axios from "axios";
 import queryString from "query-string";
 import Button from "@material-ui/core/Button";
 import GoogleLogin from "react-google-login";
 import { GoogleOutlined } from "@ant-design/icons";
-import Font, { Text } from "react-font";
+import Font from "react-font";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Avatar from "react-avatar";
 import { useNavigate } from "@reach/router";
-import { StayPrimaryLandscape } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
+import { Cookies, useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -56,26 +51,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
-
 export default function MyAppBar(props) {
   const classes = useStyles();
 
   const { currentTheme, setTheme } = useContext(CustomThemeContext);
   const isDark = Boolean(currentTheme === "dark");
-
-  const handleThemeChange = (event) => {
-    const { checked } = event.target;
-    if (checked) {
-      setTheme("dark");
-    } else {
-      setTheme("normal");
-    }
-  };
 
   console.log("From Home : ", currentTheme);
 
@@ -131,7 +111,7 @@ export default function MyAppBar(props) {
     handleMobileMenuClose();
   };
 
-  const logout = (e) => {
+  const logout = () => {
     //const { cookies } = this.props;
     cookies.remove("userCookie");
     window.location.href = "/";
@@ -162,7 +142,12 @@ export default function MyAppBar(props) {
         {" "}
         Edit Profile{" "}
       </MenuItem>
-      <MenuItem onClick={handleMenuClose} onClick={logout}>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          logout();
+        }}
+      >
         Logout
       </MenuItem>
     </Menu>
@@ -193,14 +178,6 @@ export default function MyAppBar(props) {
     console.log("Failed ", res);
   };
 
-  function handleClick() {
-    <GoogleLogin
-      clientId={client_id}
-      onSuccess={responseGoogle}
-      onFailure={fail}
-    ></GoogleLogin>;
-  }
-
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -210,10 +187,6 @@ export default function MyAppBar(props) {
   const navigate = useNavigate();
 
   const gotoProfile = (option) => {
-    // axios.get(`${API_URL}/authorlist?name=${option}`).then((res) => {
-    //   console.log(res.data[0].email);
-
-    // });
     console.log(option);
     navigate(`/profile/${option.email}`);
     window.location.reload();
@@ -282,12 +255,6 @@ export default function MyAppBar(props) {
               eBook
             </Button>
           </Font>
-
-          {/* <FormControlLabel
-            style={{ marginLeft: "5%" }}
-            control={<SwitchUI checked={isDark} onChange={handleThemeChange} />}
-            label="Theme"
-          /> */}
 
           <Autocomplete
             className={classes.search}

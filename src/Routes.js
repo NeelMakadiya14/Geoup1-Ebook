@@ -9,7 +9,7 @@ import ReadingAdmin from "./Pages/Admin/ReadingAdmin";
 import SearchResult from "./Pages/SearchResult";
 import GenreSearch from "./Pages/GenreSearch";
 import Admin from "./Pages/Admin/Admin";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 export default function Routes(props) {
   const cookies = new Cookies();
