@@ -17,7 +17,6 @@ export default function ReadingThread(props) {
 
 
 
-
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
     setPageNumber(1);
@@ -36,7 +35,7 @@ export default function ReadingThread(props) {
   }
 
   return (
-    <div className="head">
+    <div className="mainhead">
       <div className="main">
         <div className="buttonc">
           <button
@@ -51,7 +50,7 @@ export default function ReadingThread(props) {
             type="button"
             disabled={pageNumber >= numPages}
             onClick={nextPage}
-            className='post'
+            className='Post'
           >
             Next
             </button>
