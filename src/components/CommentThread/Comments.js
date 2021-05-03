@@ -92,7 +92,7 @@ export default function App(props) {
     <div>
       {temp && (
         <>
-          <div className="container">
+          <div className="container" style={{ margin: "5%" }}>
             <h1>Comments</h1>
             <Comment onAdd={addTask} usercookie={usercookie} props={props} />
             {tasks.length > 0 ? <Tasks tasks={tasks} /> : "No Comments"}
