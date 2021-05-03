@@ -9,20 +9,39 @@ import ReadingAdmin from "./Pages/Admin/ReadingAdmin";
 import SearchResult from "./Pages/SearchResult";
 import GenreSearch from "./Pages/GenreSearch";
 import Admin from "./Pages/Admin/Admin";
+import { CookiesProvider, Cookies, useCookies } from "react-cookie";
 
 export default function Routes(props) {
+  const cookies = new Cookies();
+  const userCookie = cookies.get("userCookie");
+
   return (
-    <Router>
-      <Home path="/" />
-      <Profile path="/profile/:email" />
-      <AddProfile path="/editprofile" />
-      <Home path="*" />
-      <CreateNewBook path="/edit/:roomID" />
-      <Reading path="/view/:bookID" />
-      <ReadingAdmin path="admin/view/:bookID" />
-      <GenreSearch path="/genres/:genre" />
-      <SearchResult path="/search/:value" />
-      <Admin path="/admin" />
-    </Router>
+    <>
+      {userCookie ? (
+        <Router>
+          <Home path="/" />
+          <Profile path="/profile/:email" />
+          <Home path="*" />
+          <Reading path="/view/:bookID" />
+          <ReadingAdmin path="admin/view/:bookID" />
+          <GenreSearch path="/genres/:genre" />
+          <SearchResult path="/search/:value" />
+          <Admin path="/admin" />
+          <AddProfile path="/editprofile" />
+          <CreateNewBook path="/edit/:roomID" />
+        </Router>
+      ) : (
+        <Router>
+          <Home path="/" />
+          <Profile path="/profile/:email" />
+          <Home path="*" />
+          <Reading path="/view/:bookID" />
+          <ReadingAdmin path="admin/view/:bookID" />
+          <GenreSearch path="/genres/:genre" />
+          <SearchResult path="/search/:value" />
+          <Admin path="/admin" />
+        </Router>
+      )}
+    </>
   );
 }

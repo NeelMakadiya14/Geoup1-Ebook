@@ -27,8 +27,7 @@ import { useNavigate } from "@reach/router";
 import { StayPrimaryLandscape } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { DarkModeSwitch } from 'react-toggle-dark-mode';
-
+import { DarkModeSwitch } from "react-toggle-dark-mode";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -104,7 +103,8 @@ export default function MyAppBar(props) {
         })
         .catch((err) => console.log(err));
 
-      axios.get(`${API_URL}/count/unfinished?` + queryString.stringify({ email }))
+      axios
+        .get(`${API_URL}/count/unfinished?` + queryString.stringify({ email }))
         .then((res) => {
           console.log(res.data);
           if (res.data.count >= 3) {
@@ -130,8 +130,6 @@ export default function MyAppBar(props) {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
-
 
   const logout = (e) => {
     //const { cookies } = this.props;
@@ -188,6 +186,7 @@ export default function MyAppBar(props) {
         console.log(err);
       });
     props.setRender(!props.render);
+    window.location.reload();
   };
 
   const fail = (res) => {
@@ -371,48 +370,42 @@ export default function MyAppBar(props) {
             )}
           />
 
-        
-
           <div style={{ marginLeft: "auto", marginRight: "20px" }}>
-          
-          <DarkModeSwitch
-            style={{height:"30px", marginTop:"10px",marginRight:"20px"}}
-            checked={isDark}
-            onChange={toggleDarkMode}
-            size={35}
-          />
-            
-            {userCookie == undefined ? null : isAuthor ?
-              (unfinishedBook ?
-                (
-                  <Button
-                    size="large"
-                    href={`/`}
-                    style={{ paddingRight: "20px", color: "white" }}
-                    onClick={() => alert('Already 3 unfinished book.')}
-                  >
-                    Create New Book
-                  </Button>
-                ) :
-                (
-                  <Button
-                    size="large"
-                    href={`/edit/${id}`}
-                    style={{ paddingRight: "20px", color: "white" }}
-                  >
-                    Create New Book
-                  </Button>
-                )
-              )
-              : (
+            <DarkModeSwitch
+              style={{ height: "30px", marginTop: "10px", marginRight: "20px" }}
+              checked={isDark}
+              onChange={toggleDarkMode}
+              size={35}
+            />
+
+            {userCookie == undefined ? null : isAuthor ? (
+              unfinishedBook ? (
                 <Button
                   size="large"
-                  href="/editprofile"
+                  href={`/`}
+                  style={{ paddingRight: "20px", color: "white" }}
+                  onClick={() => alert("Already 3 unfinished book.")}
+                >
+                  Create New Book
+                </Button>
+              ) : (
+                <Button
+                  size="large"
+                  href={`/edit/${id}`}
                   style={{ paddingRight: "20px", color: "white" }}
                 >
                   Create New Book
                 </Button>
-              )}
+              )
+            ) : (
+              <Button
+                size="large"
+                href="/editprofile"
+                style={{ paddingRight: "20px", color: "white" }}
+              >
+                Create New Book
+              </Button>
+            )}
 
             {userCookie === undefined ? (
               <GoogleLogin
@@ -448,7 +441,7 @@ export default function MyAppBar(props) {
           </div>
         </Toolbar>
       </AppBar>
-      { renderMenu}
-    </div >
+      {renderMenu}
+    </div>
   );
 }
