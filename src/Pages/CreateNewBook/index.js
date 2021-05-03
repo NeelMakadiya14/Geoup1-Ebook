@@ -3,10 +3,7 @@ import Form from "./Form";
 import Editor from "./editor";
 import axios from "axios";
 import queryString from "query-string";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
-import { Redirect } from "@reach/router";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
-import { AirlineSeatLegroomExtra } from "@material-ui/icons";
+import { Cookies } from "react-cookie";
 
 require("dotenv").config();
 

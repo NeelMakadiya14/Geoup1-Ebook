@@ -11,7 +11,7 @@ import Postcard from "../../components/Postcard";
 import { LinkOutlined } from "@ant-design/icons";
 import Loader from "../../components/Loader";
 import queryString from "query-string";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 import "./profile.css";
 
@@ -191,10 +191,10 @@ export default function Profile(props) {
                   {profile.Company}
                   <br></br>
                   {profile.Clocation ? (
-                    <div>
+                    <>
                       <RoomIcon color="secondary" fontSize="large"></RoomIcon>
                       {profile.Clocation}
-                    </div>
+                    </>
                   ) : null}
                 </p>
               </div>
@@ -226,7 +226,7 @@ export default function Profile(props) {
               </Typography>
               <Grid container spacing={2}>
                 {pending.map((x, i) => (
-                  <Grid item xs={3}>
+                  <Grid key={i} item xs={3}>
                     <Postcard
                       data={x}
                       key={i}
@@ -249,7 +249,7 @@ export default function Profile(props) {
               </Typography>
               <Grid container spacing={2}>
                 {published.map((x, i) => (
-                  <Grid item xs={3}>
+                  <Grid key={i} item xs={3}>
                     <Postcard
                       data={x}
                       key={i}

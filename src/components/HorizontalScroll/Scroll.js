@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Button, Box } from "@material-ui/core";
 import axios from "axios";
 import "./Scroll.css";
 import Typography from "@material-ui/core/Typography";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import { useNavigate } from "@reach/router";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +83,6 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const MyPostCard = ({
   data,
-  key,
   isAdd,
   mylist,
   setMylist,
@@ -113,11 +112,11 @@ const MyPostCard = ({
         console.log(res);
         if (res.data == "added") {
           // console.log("called : ", res.data);
-          var list = mylist;
+          let list = mylist;
           // console.log(list);
           list.push(data);
           // console.log("...", list);
-          var tempList = checkList;
+          let tempList = checkList;
           tempList[data.docID] = true;
           setCheckList(tempList);
           setMylist(list);
@@ -125,8 +124,8 @@ const MyPostCard = ({
           // console.log("list : ", checkList);
           setRender(!render);
         } else {
-          var list = mylist.filter((x) => x.docID != data.docID);
-          var tempList = checkList;
+          let list = mylist.filter((x) => x.docID != data.docID);
+          let tempList = checkList;
           tempList[data.docID] = undefined;
           setCheckList(tempList);
           setMylist(list);
@@ -217,7 +216,7 @@ const Scroll = (props) => {
       </Box>
       <div className="container1">
         {props.data.map((x, i) => (
-          <div className="item">
+          <div key={i} className="item">
             <MyPostCard
               data={x}
               key={i}
