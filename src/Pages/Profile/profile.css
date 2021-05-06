@@ -33,7 +33,7 @@
 */
 
 .name {
-  margin-top: -0.75em;
+  margin-top: 0.75em;
 }
 
 .name1 {
@@ -45,7 +45,7 @@
 
 .author {
   text-align: left;
-  margin-top: -2.25em;
+  margin-top: 0.25em;
 }
 
 .author1 {
@@ -79,7 +79,7 @@
 }
 
 .Twitter1 {
-  margin-top: -0.75em;
+  margin-top: 0.5em;
   font-size: 1.4em;
   color: rgb(114, 106, 106);
 }
@@ -89,7 +89,7 @@
 }
 
 .linkedInUrl1 {
-  margin-top: -0.75em;
+  margin-top: 0.5em;
   font-size: 1.4em;
   color: rgb(114, 106, 106);
 }
@@ -99,7 +99,7 @@
 }
 
 .Mnumber1 {
-  margin-top: -0.75em;
+  margin-top: 0.5em;
   font-size: 1.4em;
   color: rgb(114, 106, 106);
 }

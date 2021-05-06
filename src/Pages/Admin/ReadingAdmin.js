@@ -1,7 +1,5 @@
 import React from "react";
 import ReadingThread from "../../components/ReadingThread";
-import MyAppBar from "../../components/MyAppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useNavigate } from "@reach/router";
@@ -36,8 +34,8 @@ export default function Reading(props) {
 
   return (
     <div>
-      <MyAppBar />
-      <Toolbar />
+      {/* <MyAppBar />
+      <Toolbar /> */}
       <ReadingThread bookID={props.bookID} />
       <div style={{ display: "flex" }}>
         <Button
