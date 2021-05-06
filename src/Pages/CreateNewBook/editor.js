@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { v1 as uuid } from "uuid";
 import { Cookies } from "react-cookie";
-import { Grid, Box } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";

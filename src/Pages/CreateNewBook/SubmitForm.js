@@ -8,18 +8,11 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { genres } from "../../utils/Constant";
 import { Formik } from "formik";
-import {
-  Box,
-  Card,
-  CardMedia,
-  Typography,
-  Button,
-  CardHeader,
-} from "@material-ui/core";
+import { Box, Typography, Button } from "@material-ui/core";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import { useNavigate } from "@reach/router";
 
@@ -28,11 +21,11 @@ require("dotenv").config();
 const CloudName = process.env.REACT_APP_CLOUD_NAME;
 const UploadPreset = process.env.REACT_APP_CLOUD_PRESET;
 
-const defaultProps = {
-  border: 1,
-  borderRadius: 5,
-  style: { width: "396px", height: "57px", marginTop: "20px" },
-};
+// const defaultProps = {
+//   border: 1,
+//   borderRadius: 5,
+//   style: { width: "396px", height: "57px", marginTop: "20px" },
+// };
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -126,7 +119,7 @@ export default function SubmitForm(props) {
   const submit = async () => {
     const cookies = new Cookies();
     const userCookie = cookies.get("userCookie");
-    const email = userCookie.email;
+    // const email = userCookie.email;
 
     console.log(userCookie.GID);
     const obj = {
