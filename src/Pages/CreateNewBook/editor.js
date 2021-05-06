@@ -1,9 +1,7 @@
-
-
 import React, { useState, useEffect } from "react";
-import { v1 as uuid } from "uuid";
-import { CookiesProvider, Cookies, useCookies } from "react-cookie";
-import Grid from "@material-ui/core/Grid";
+// import { v1 as uuid } from "uuid";
+import { Cookies } from "react-cookie";
+import { Grid, Box } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
@@ -14,15 +12,12 @@ import MyAppBar from "../../components/MyAppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import queryString from "query-string";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-
-
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import axios from "axios";
-
-import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js";
+import "./style.css";
 
 require("dotenv").config();
 
@@ -31,16 +26,17 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 const cookies = new Cookies();
 const userCookie = cookies.get("userCookie");
 
-const username = userCookie.name;
-const email = userCookie.email;
+let username;
+if (userCookie) {
+  username = userCookie.name;
+}
 
 let docID = window.location.pathname;
 docID = docID.substring(6);
 
-
-
 export default function Room(props) {
   const roomID = props.roomID;
+  const [open, setOpen] = useState(false);
   Quill.register("modules/cursors", QuillCursors);
   //const ImageResize = require('quill-image-resize-module').default
   //Quill.register('modules/imageResize', ImageResize);
@@ -55,8 +51,7 @@ export default function Room(props) {
 
   const [chapters, setChapters] = useState([]);
 
-
-  useEffect(async () => {
+  useEffect(() => {
     const EditorContainer = document.getElementById("editor");
     var toolbarOptions = [
       [{ font: [] }],
@@ -88,7 +83,6 @@ export default function Room(props) {
       theme: "snow", // or 'bubble'
       // onChange: { rteChange },
       // value: { state.comments || '' },
-
     });
     const binding = new QuillBinding(type, editor, provider.awareness);
     console.log(provider.awareness);
@@ -101,14 +95,20 @@ export default function Room(props) {
     // @ts-ignore
     window.example = { provider, ydoc, type, binding, Y };
 
-    await axios
+    axios
       .get(`${API_URL}/bookbyid?` + queryString.stringify({ docID }))
-      .then((res) => setChapters(res.data.chapters)
-      );
-
+      .then((res) => {
+        console.log(res.data);
+        setChapters(res.data.chapters);
+      });
   }, []);
 
-
+  // useEffect(() => {
+  //   console.log("called from....");
+  //   if (props.clickSubmit) {
+  //     console.log("Yes,, Called.......");
+  //   }
+  // }, [props.clickSubmit]);
 
   const OnSave = async () => {
     console.log(API_URL);
@@ -134,7 +134,10 @@ export default function Room(props) {
           requestOptions
         )
           .then((response) => response.text())
-          .then((result) => console.log(result))
+          .then((result) => {
+            console.log(result);
+            props.setSubmit(true);
+          })
           .catch((error) => console.log("error", error));
       });
 
@@ -165,58 +168,67 @@ export default function Room(props) {
   id = id.substring(6);
 
   const AddCollabator = () => {
-    let foo = prompt('Type here email of collabator');
+    let foo = prompt("Type here email of collabator");
     if (foo !== null) {
       const obj = {
-        email: foo
-      }
+        email: foo,
+      };
 
-      axios.post(`${API_URL}/addeditor?` + queryString.stringify({ docID: id }), obj)
-        .then((res) => console.log(res))
+      axios
+        .post(
+          `${API_URL}/addeditor?` + queryString.stringify({ docID: id }),
+          obj
+        )
+        .then((res) => console.log(res));
     }
-  }
+  };
 
   const AddChapter = async () => {
-    let foo = prompt('Add new chapter');
+    let foo = prompt("Add new chapter");
     if (foo !== null) {
       const obj = {
-        cname: foo
-      }
+        cname: foo,
+      };
 
-      await axios.post(`${API_URL}/addchapter?` + queryString.stringify({ docID: id }), obj)
-        .then((res) => console.log(res))
+      await axios
+        .post(
+          `${API_URL}/addchapter?` + queryString.stringify({ docID: id }),
+          obj
+        )
+        .then((res) => console.log(res));
 
-      setChapters([...chapters,foo]);
+      setChapters([...chapters, foo]);
       console.log(chapters);
     }
-  }
+  };
+
+  const onSubmit = () => {
+    OnSave();
+  };
 
   return (
     <div>
       <MyAppBar />
       <Toolbar />
-      <div style={{ display: "flex" }}>
-
-
-        <Grid item xs={2} style={{ height: 100 + "%" }}>
+      <div style={{ display: "flex", marginTop: "2%" }}>
+        <Grid item xs={2} style={{ height: 100 + "%", margin: "2%" }}>
           <Card>
             <div>
               <h1> Chapters </h1>
               <List>
-              {chapters.map ( (chapter) => (
-                <ListItem>
-                  <ListItemText
-                    primary={chapter}
-                  />
-                </ListItem>
-              )) 
-              }
+                {chapters
+                  ? chapters.map((chapter, i) => (
+                      <ListItem key={i}>
+                        <ListItemText primary={chapter} />
+                      </ListItem>
+                    ))
+                  : null}
               </List>
             </div>
           </Card>
         </Grid>
 
-        <Grid item xs={10} style={{ height: 100 + "%" }}>
+        <Grid item xs={8} style={{ height: 100 + "%" }}>
           <Card>
             <div
               style={{
@@ -228,32 +240,44 @@ export default function Room(props) {
             ></div>
           </Card>
         </Grid>
+        <Grid item xs={2}>
+          <div
+            style={{
+              padding: "15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={AddCollabator}
+              style={{ margin: "3%" }}
+            >
+              Add collabator
+            </Button>
 
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={AddChapter}
+              style={{ margin: "3%" }}
+            >
+              Add Chapter
+            </Button>
 
-      </div>
-
-      <div
-        style={{
-          padding: "15px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-
-
-        <Button variant="contained" color="primary" onClick={AddCollabator}>
-          Add collabator
-        </Button>
-
-        <Button variant="contained" color="primary" style={{ marginLeft: 5 }} onClick={AddChapter}>
-          Add Chapter
-        </Button>
-
-        <Button variant="contained" color="primary" style={{ marginLeft: 5 }} onClick={OnSave}>
-          Submit
-        </Button>
-
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onSubmit}
+              style={{ margin: "3%" }}
+            >
+              Submit
+            </Button>
+          </div>
+        </Grid>
       </div>
     </div>
   );

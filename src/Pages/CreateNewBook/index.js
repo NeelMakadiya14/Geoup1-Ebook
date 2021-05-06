@@ -4,6 +4,7 @@ import Editor from "./editor";
 import axios from "axios";
 import queryString from "query-string";
 import { Cookies } from "react-cookie";
+import SubmitForm from "./SubmitForm";
 
 require("dotenv").config();
 
@@ -17,6 +18,7 @@ export default function Room(props) {
 
   const [showEditor, setShowEditor] = useState(false);
   const [access, setAccess] = useState(false);
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
     axios
@@ -44,10 +46,13 @@ export default function Room(props) {
   return (
     <>
       {!showEditor && <Form />}
-      {showEditor && access && <Editor roomID={props.roomID} />}
+      {showEditor && access && !submit && (
+        <Editor roomID={props.roomID} setSubmit={setSubmit} />
+      )}
       {showEditor && !access && (
         <h1> Sorry You don't have the editing access on this doc.</h1>
       )}
+      {submit ? <SubmitForm /> : null}
     </>
   );
 }

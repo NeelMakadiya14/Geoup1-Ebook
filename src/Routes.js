@@ -10,6 +10,7 @@ import SearchResult from "./Pages/SearchResult";
 import GenreSearch from "./Pages/GenreSearch";
 import Admin from "./Pages/Admin/Admin";
 import { Cookies } from "react-cookie";
+import MyAppBar from "./components/MyAppBar";
 
 export default function Routes(props) {
   const cookies = new Cookies();

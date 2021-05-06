@@ -22,7 +22,6 @@
     "formik": "^2.2.6",
     "html2pdf.js": "^0.9.2",
     "jquery": "^3.6.0",
-    "jspdf": "^1.4.1",
     "jspdf-react": "^1.0.11",
     "material-ui-search-bar": "^1.0.0",
     "parchment": "^2.0.0-dev.2",
